@@ -16,7 +16,7 @@ I provide gradlew (gradle wrapper) that install gradle if not available.
 
 ```
 cd jme3_skel
-gradlew build
+gradle build
 ```
 
 ## Netbeans
