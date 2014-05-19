@@ -10,7 +10,7 @@ import com.simsilica.lemur.Container;
 import com.simsilica.lemur.HAlignment;
 import com.simsilica.lemur.component.TbtQuadBackgroundComponent;
 import com.simsilica.lemur.event.BaseAppState;
-import lemur.ext.MigLayout;
+import lemur_ext.MigLayout;
 
 /**
  *

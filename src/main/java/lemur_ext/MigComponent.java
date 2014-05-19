@@ -1,5 +1,5 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-package lemur.ext;
+package lemur_ext;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
