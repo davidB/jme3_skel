@@ -4,6 +4,7 @@ package lemur_ext;
 import java.util.Set;
 import net.miginfocom.layout.ComponentWrapper;
 import net.miginfocom.layout.ContainerWrapper;
+import static lemur_ext.MigLayout.yDir;
 
 /**
  *
@@ -36,6 +37,8 @@ class MigContainer extends MigComponent implements ContainerWrapper {
 
     @Override
     public void paintDebugCell(int x, int y, int w, int h) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (layout != null && layout.debug != null) {
+            layout.debug.addCell(x, y * yDir, w, h);
+        }
     }
 }

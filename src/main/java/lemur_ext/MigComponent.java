@@ -9,6 +9,7 @@ import com.simsilica.lemur.core.GuiControl;
 import net.miginfocom.layout.ComponentWrapper;
 import net.miginfocom.layout.ContainerWrapper;
 import net.miginfocom.layout.LayoutUtil;
+import static lemur_ext.MigLayout.yDir;
 
 /**
  *
@@ -19,7 +20,7 @@ class MigComponent implements ComponentWrapper {
     public static int pixelUnitFactor = 1;
     public static int horizontalScreenDPI = 72;
     public static int verticalScreenDPI = 72;
-    public int[] visualPadding = new int[]{10, 10, 10, 10};
+    public int[] visualPadding = new int[]{0, 0, 0, 0};
     public int minimumWidth = 0;
     public int minimumHeight = 0;
     public int maximumWidth = LayoutUtil.INF;
@@ -38,12 +39,12 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public int getX() {
-        return (int) element.getNode().getLocalTranslation().x;
+        return (int) getNode().getLocalTranslation().x;
     }
 
     @Override
     public int getY() {
-        return (int) element.getNode().getLocalTranslation().y;
+        return (int) getNode().getLocalTranslation().y * yDir;
     }
 
     @Override
@@ -98,9 +99,8 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public void setBounds(int x, int y, int w, int h) {
-        element.getNode().setLocalTranslation(x, -y, 0);
+        element.getNode().setLocalTranslation(x, y * yDir, 0);
         element.setSize(new Vector3f((float) w, (float) h, 0.0f));
-        System.out.println("pos : " + element.getNode().getLocalTranslation() + "//" + x + ".." + y + ".." + w + ".." + h);
     }
 
     @Override
@@ -120,21 +120,7 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public ContainerWrapper getParent() {
-        ContainerWrapper r = parent;
-        /*
-         Node p = element.getNode().getParent();
-         if (p != null) {
-         GuiControl p0 = p.getControl(GuiControl.class);
-         if (p0 != null) {
-         GuiLayout p1 = p0.getLayout();
-         if (p1 instanceof MigLayout) {
-         r = ((MigLayout) p1).wrapper;
-         }
-         }
-         }
-         */
-//        System.out.println("getParent :" + r + " of " + element);
-        return r;
+        return parent;
     }
 
     @Override
@@ -169,7 +155,7 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public int getLayoutHashCode() {
-        return element.getLayout().hashCode();
+        return parent.getLayout().hashCode();
     }
 
     @Override
@@ -191,7 +177,12 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public void paintDebugOutline() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        MigLayout l = (parent == null) ? null : ((MigLayout) parent.getLayout());
+        if (l != null && l.debug != null) {
+            Vector3f pos = element.getNode().getLocalTranslation();
+            Vector3f dim = element.getSize();
+            l.debug.addComponent(pos.x, pos.y, dim.x, dim.y);
+        }
     }
 
     @Override

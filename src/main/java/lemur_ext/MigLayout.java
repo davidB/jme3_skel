@@ -19,8 +19,8 @@ import net.miginfocom.layout.Grid;
 import net.miginfocom.layout.LC;
 
 /**
- * A layout that manages layout of children via the powerfull <a
- * href="htt://www.migcalendar.com/miglayout/">MigLayout</a>
+ * A layout that manages layout of children via the powerfull
+ * <a href="htt://www.migcalendar.com/miglayout/">MigLayout</a>
  * It can layout like a Border, Flow, Grid,...
  *
  * Issues:
@@ -33,11 +33,13 @@ import net.miginfocom.layout.LC;
  */
 public class MigLayout extends AbstractGuiComponent implements GuiLayout, Cloneable {
 
+    public static final int yDir = -1;
     private GuiControl parent;
-    protected MigContainer wrapper;
+    private MigContainer wrapper;
     protected transient final Map<ComponentWrapper, CC> ccMap = new LinkedHashMap<>(8);
     protected transient LC lc = null;
     protected transient AC colSpecs = null, rowSpecs = null;
+    public MigLayoutDebugInfo debug = null;
 
     public MigLayout() {
         this("", "", "");
@@ -71,18 +73,22 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
 
     @Override
     public void reshape(Vector3f pos, Vector3f size) {
-        System.out.println("wrapper : " + wrapper + " .. " + parent);
-        // Note: we use the pos and size for scratch because we
-        // are a layout and we should therefore always be last.
+        System.out.println("reshape layout : " + wrapper + " .. " + parent + ".." + pos);
         Grid grid = new Grid(wrapper, lc, rowSpecs, colSpecs, ccMap, null);
         int[] b = new int[]{
-            //(int) pos.x,
-            //(int) pos.y,
-            0, 0,
+            (int) pos.x,
+            (int) pos.y,
             (int) size.x,
             (int) size.y
         };
-        grid.layout(b, lc.getAlignX(), lc.getAlignY(), false, false);
+        grid.layout(b, lc.getAlignX(), lc.getAlignY(), debug != null, true);
+        parent.getNode().detachChildNamed(MigLayoutDebugInfo.nodeName);
+        if (debug != null) {
+            grid.paintDebug();
+            debug.setContainer(size.x, size.y);
+            //debug.setGrid(size.x, grid.getWidth(), size.y, grid.getHeight());
+            parent.getNode().attachChild(debug.getNode());
+        }
     }
 
     @Override
@@ -114,6 +120,18 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
 
     @Override
     public void removeChild(Node n) {
+        if (parent != null) {
+            parent.getNode().detachChild(n);
+        }
+        ComponentWrapper cw = null;
+        for (ComponentWrapper e : ccMap.keySet()) {
+            if (n.equals(((MigComponent) e).getNode())) {
+                cw = e;
+            }
+        }
+        if (cw != null) {
+            ccMap.remove(cw);
+        }
         invalidate();
     }
 
@@ -150,12 +168,10 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
             self.attachChild(child);
         }
         wrapper.element = parent;
-        System.out.println(">>>>>>>>>>>>>>> attach parent");
     }
 
     @Override
     public void detach(GuiControl parent) {
-        System.out.println(">>>>>>>>>>>>>>> detach parent");
         this.parent = null;
         for (Node child : getChildren()) {
             child.removeFromParent();
