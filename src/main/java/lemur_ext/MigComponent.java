@@ -49,12 +49,12 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public int getWidth() {
-        return (int) element.getSize().x;
+        return (int) Math.ceil(element.getSize().x);
     }
 
     @Override
     public int getHeight() {
-        return (int) element.getSize().y;
+        return (int) Math.ceil(element.getSize().y);
     }
 
     @Override
@@ -79,12 +79,12 @@ class MigComponent implements ComponentWrapper {
 
     @Override
     public int getPreferredWidth(int i) {
-        return (int) element.getPreferredSize().x;
+        return (int) Math.ceil(element.getPreferredSize().x);
     }
 
     @Override
     public int getPreferredHeight(int i) {
-        return (int) element.getPreferredSize().y;
+        return (int) Math.ceil(element.getPreferredSize().y);
     }
 
     @Override
