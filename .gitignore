@@ -13,3 +13,6 @@ build
 .classpath
 .project
 .settings
+
+# crash
+hs_err_pid*.log
