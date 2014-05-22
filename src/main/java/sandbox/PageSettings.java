@@ -1,63 +1,106 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package sandbox;
 
-import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
+import java.util.List;
+
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Button;
+import com.simsilica.lemur.Command;
 import com.simsilica.lemur.Container;
+import com.simsilica.lemur.FillMode;
 import com.simsilica.lemur.HAlignment;
-import com.simsilica.lemur.event.BaseAppState;
+import com.simsilica.lemur.Label;
+import com.simsilica.lemur.Panel;
+import com.simsilica.lemur.component.BoxLayout;
+
 import lemur_ext.MigLayout;
 import lemur_ext.MigLayoutDebugInfo;
+import lemur_ext.Widgets;
 
 /**
  *
  * @author David Bernard
  */
-class PageWelcome extends BaseAppState {
+//TODO add effects (visual + sound) + transition
+class PageSettings extends Page {
 
-    Container hudPanel;
-    SimpleApplication app;
-
-    public PageWelcome() {
+    Button newSelector(String label, Container container) {
+        return container.addChild(new Button(label), "sg selector");
     }
 
-    @Override
-    protected void initialize(Application aplctn) {
-        app = ((SimpleApplication) aplctn);
+    @SuppressWarnings("unchecked")
+	@Override
+    Container newHud() {
+        Container r = Widgets.newFullPageContainer("glass", app.getCamera(), null, 350, 150, "flowy", "[][fill,grow]", "[][][][fill,grow]");
+        Container holder = newHolder();
+        newSelector("Video", r).addClickCommands(new CommandShowSubPane(newVideoPane(), holder));
+        newSelector("Audio", r).addClickCommands(new CommandShowSubPane(newAudioPane(), holder));
+        newSelector("Commands", r).addClickCommands(new CommandShowSubPane(newCommandsPane(), holder));
+        //Button backBtn = newSelector("Back", r);
+        r.addChild(holder, "newline, grow, spany");
+        return r;
+    }
 
-        hudPanel = new Container("glass");
-        hudPanel.setLocalTranslation(0, app.getCamera().getHeight(), 0);
+    Container newHolder() {
+        Container holder = new Container();
+        holder.setLayout(new BoxLayout(Axis.X, FillMode.First));
+        return holder;
+    }
 
-        MigLayout layout = new MigLayout("", "push[pref]push", "push[]push");
-        layout.debug = new MigLayoutDebugInfo();
-        hudPanel.setLayout(layout);
-        hudPanel.setPreferredSize(new Vector3f(app.getCamera().getWidth(), app.getCamera().getHeight(), 0));
-        for (int i = 0; i < 5; i++) {
-            //Label l = new Label("label_" + i);
-            Button l = new Button("label_" + "xxxxxxxxxxxxxxxxxxx".substring(0, i));
-            l.setFontSize(50f);
-            l.setTextHAlignment(HAlignment.Center);
-            //TbtQuadBackgroundComponent bg = TbtQuadBackgroundComponent.create("/com/simsilica/lemur/icons/border.png", 1, 2, 2, 3, 3, 0, false);
-            //bg.setColor(ColorRGBA.Red);
-            //l.setBackground(bg);
-            hudPanel.addChild(l, "cell 0 0, flowy, growx");
+    Label newLabel(String txt) {
+        Label l = new Label(txt);
+        l.setFontSize(50f);
+        l.setTextHAlignment(HAlignment.Center);
+        return l;
+    }
+
+    Container newVideoPane() {
+        Container pane = new Container();
+        MigLayout ml = new MigLayout();
+        ml.debug = new MigLayoutDebugInfo();
+        pane.setLayout(ml);
+        //pane.setPreferredSize(new Vector3f(10,10,0));
+        pane.addChild(new Label("Video"));
+        return pane;
+    }
+
+    Container newAudioPane() {
+        Container pane = new Container();
+        pane.addChild(new Label("Audio"));
+        return pane;
+    }
+
+    Container newCommandsPane() {
+        Container pane = new Container();
+        pane.addChild(new Label("Commands"));
+        return pane;
+    }
+
+    static class CommandShowSubPane implements Command<Button> {
+
+        final Container holder;
+        final Panel content;
+
+        CommandShowSubPane(Panel c, Container h) {
+            holder = h;
+            content = c;
         }
-    }
 
-    @Override
-    protected void cleanup(Application aplctn) {
-        hudPanel = null;
-    }
-
-    @Override
-    protected void enable() {
-        app.getGuiNode().attachChild(hudPanel);
-    }
-
-    @Override
-    protected void disable() {
-        app.getGuiNode().detachChild(hudPanel);
+        @Override
+        public void execute(Button s) {
+            List<Spatial> children = holder.getChildren();
+            Spatial previous = (children.size() > 0) ? children.get(0) : null;
+            if (previous == content) {
+                return;
+            }
+            if (previous != null) {
+                holder.removeChild((Node) previous);
+            }
+            holder.addChild(content);
+            System.out.println("show " + content + " .. " + holder.getSize() + ".." + content.getSize());
+        }
     }
 }
