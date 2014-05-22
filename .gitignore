@@ -1,7 +1,15 @@
+# gradle
 build
 .gradle
 .nb-gradle
 .nb-gradle-properties
+
+# native created when running
 *.so
 *.dll
 
+# eclipse
+/bin
+.classpath
+.project
+.settings
