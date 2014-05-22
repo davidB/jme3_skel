@@ -2,21 +2,26 @@
 package lemur_ext;
 
 import com.simsilica.lemur.component.AbstractGuiComponent;
+
 import java.util.Collection;
 import java.util.Map;
+
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.core.GuiControl;
 import com.simsilica.lemur.core.GuiLayout;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
+
 import net.miginfocom.layout.AC;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.ComponentWrapper;
 import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.Grid;
 import net.miginfocom.layout.LC;
+import net.miginfocom.layout.UnitValue;
 
 /**
  * A layout that manages layout of children via the powerfull
@@ -68,12 +73,18 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
 
     @Override
     public void calculatePreferredSize(Vector3f size) {
-        size.set(parent.getPreferredSize());
+    	Vector3f ps = parent.getSize();
+    	UnitValue wp = lc.getWidth().getPreferred();
+    	float w = (wp == null) ? ps.x : wp.getPixels(ps.x, null, null); 
+    	UnitValue hp = lc.getHeight().getPreferred();
+    	float h = (hp == null) ? ps.y : hp.getPixels(ps.y, null, null);
+    	size.set(w, h, 0);
+        //size.set(parent.getSize());
     }
 
     @Override
     public void reshape(Vector3f pos, Vector3f size) {
-        System.out.println("reshape layout : " + wrapper + " .. " + parent + ".." + pos);
+        System.out.println("reshape layout : " + wrapper + " .. " + parent + ".." + pos + "/" + size);
         Grid grid = new Grid(wrapper, lc, rowSpecs, colSpecs, ccMap, null);
         int[] b = new int[]{
             (int) pos.x,
@@ -81,7 +92,7 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
             (int) size.x,
             (int) size.y
         };
-        grid.layout(b, lc.getAlignX(), lc.getAlignY(), debug != null, true);
+        grid.layout(b, lc.getAlignX(), lc.getAlignY(), debug != null, false);
         parent.getNode().detachChildNamed(MigLayoutDebugInfo.nodeName);
         if (debug != null) {
             grid.paintDebug();
