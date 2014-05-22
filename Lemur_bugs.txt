@@ -1,0 +1,2 @@
+* when r.setBackground(TbtQuadBackgroundComponent.create(bgImagePath, 1, 0, 0, bgImageWidth, bgImageHeight, 0, false)); the Label adding to r aren't displayed (but it works for button)
+* click on button aren't detected if the mouse is moving
