@@ -2,7 +2,9 @@
 package sandbox;
 
 import com.jme3.app.FlyCamAppState;
+
 import gui_utils.PageManager;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
 import com.jme3.input.KeyInput;
@@ -13,8 +15,10 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
+import com.jme3.system.AppSettings;
 import com.simsilica.lemur.Checkbox;
 import com.simsilica.lemur.GuiGlobals;
+import com.simsilica.lemur.Label;
 import com.simsilica.lemur.Panel;
 import com.simsilica.lemur.Slider;
 import com.simsilica.lemur.component.QuadBackgroundComponent;
@@ -32,19 +36,24 @@ public class Main extends SimpleApplication {
     enum Page {
 
         Welcome,
-        LevelSelection,
-        InGame,
-        Loading,
-        Result,
+        //        LevelSelection,
+        //        InGame,
+        //        Loading,
+        //        Result,
         Settings,
-        About,
-        Scores,
+        //        About,
+        //        Scores,
         Lemur,
     }
     PageManager pageManager;
 
     public static void main(String[] args) {
+        AppSettings settings = new AppSettings(true);
+        //settings.setResolution(settings.getMinWidth(), settings.getMinHeight());
+        settings.setFullscreen(false);
         Main app = new Main();
+        app.settings = settings;
+        app.showSettings = false;
         app.start();
     }
 
@@ -52,7 +61,7 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         initGuiLemur();
         initPages();
-        spawn3DObject();
+        //spawn3DObject();
     }
 
     @Override
@@ -77,21 +86,22 @@ public class Main extends SimpleApplication {
          pages[Page.Settings.ordinal()] = new PageSettings(screen);
          */
         pages[Page.Welcome.ordinal()] = new PageWelcome();
+        pages[Page.Settings.ordinal()] = new PageSettings();
         pages[Page.Lemur.ordinal()] = new PageLemurDemo();
         pageManager = new PageManager(stateManager, pages);
         if (debug) {
             inputManager.addMapping(PageManager.prefixGoto + Page.Welcome.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD0));
-            inputManager.addMapping(PageManager.prefixGoto + Page.LevelSelection.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD1));
-            inputManager.addMapping(PageManager.prefixGoto + Page.Loading.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD2));
-            inputManager.addMapping(PageManager.prefixGoto + Page.InGame.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD3));
-            inputManager.addMapping(PageManager.prefixGoto + Page.Result.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD4));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.LevelSelection.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD1));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.Loading.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD2));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.InGame.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD3));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.Result.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD4));
             inputManager.addMapping(PageManager.prefixGoto + Page.Settings.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD5));
-            inputManager.addMapping(PageManager.prefixGoto + Page.Scores.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD6));
-            inputManager.addMapping(PageManager.prefixGoto + Page.About.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD7));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.Scores.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD6));
+//            inputManager.addMapping(PageManager.prefixGoto + Page.About.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD7));
             inputManager.addMapping(PageManager.prefixGoto + Page.Lemur.ordinal(), new KeyTrigger(KeyInput.KEY_NUMPAD8));
         }
         pageManager.registerAction(inputManager);
-        pageManager.goTo(Page.Welcome.ordinal());
+        pageManager.goTo(Page.Settings.ordinal());
     }
 
     void initGuiLemur() {
@@ -108,17 +118,20 @@ public class Main extends SimpleApplication {
         // different backgrounds as we define a "glass" style.
         // We also define a custom element type called "spacer" which
         // picks up a specific style.
-        Styles styles = GuiGlobals.getInstance().getStyles();
-        styles.getSelector(Slider.THUMB_ID, "glass").set("text", "[]", false);
-        styles.getSelector(Panel.ELEMENT_ID, "glass").set("background",
-                new QuadBackgroundComponent(new ColorRGBA(0, 0.25f, 0.25f, 0.5f)));
-        styles.getSelector(Checkbox.ELEMENT_ID, "glass").set("background",
-                new QuadBackgroundComponent(new ColorRGBA(0, 0.5f, 0.5f, 0.5f)));
-        styles.getSelector("spacer", "glass").set("background",
-                new QuadBackgroundComponent(new ColorRGBA(1, 0.0f, 0.0f, 0.0f)));
-        styles.getSelector("header", "glass").set("background",
-                new QuadBackgroundComponent(new ColorRGBA(0, 0.75f, 0.75f, 0.5f)));
 
+        Styles styles = GuiGlobals.getInstance().getStyles();
+        /*
+         styles.getSelector(Slider.THUMB_ID, "glass").set("text", "[]", false);
+         styles.getSelector(Panel.ELEMENT_ID, "glass").set("background",
+         new QuadBackgroundComponent(new ColorRGBA(0, 0.25f, 0.25f, 0.5f)));
+         styles.getSelector(Checkbox.ELEMENT_ID, "glass").set("background",
+         new QuadBackgroundComponent(new ColorRGBA(0, 0.5f, 0.5f, 0.5f)));
+         styles.getSelector("spacer", "glass").set("background",
+         new QuadBackgroundComponent(new ColorRGBA(1, 0.0f, 0.0f, 0.0f)));
+         styles.getSelector("header", "glass").set("background",
+         new QuadBackgroundComponent(new ColorRGBA(0, 0.75f, 0.75f, 0.5f)));
+         */
+        styles.getSelector(Label.ELEMENT_ID).set("background", new QuadBackgroundComponent(new ColorRGBA(0, 0, 0, 0)), false);
 
     }
 
