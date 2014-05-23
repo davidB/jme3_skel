@@ -1,6 +1,7 @@
 // License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package lemur_ext;
 
+import com.google.common.base.Function;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
@@ -32,9 +33,9 @@ public class Widgets {
         return r;
     }
     
-    public static <T> void bindLabel(final Label label, VersionedObject<T> o, boolean autoUpdate) {
+    public static <T> void bindLabel(final Label label, VersionedObject<T> o, final Function<T,String> conv, boolean autoUpdate) {
     	final VersionedReference<T> ref = o.createReference();
-    	label.setText(ref.get().toString());
+    	label.setText(conv.apply(ref.get()));
     	if (autoUpdate) {
 	    	label.addControl(new AbstractControl() {
 				@Override
@@ -44,7 +45,7 @@ public class Widgets {
 				@Override
 				protected void controlUpdate(float arg0) {
 					if (ref.update()) {
-						label.setText(ref.get().toString());
+						label.setText(conv.apply(ref.get()));
 					}
 				}
 			});

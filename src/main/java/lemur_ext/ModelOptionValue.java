@@ -6,18 +6,18 @@ import java.util.List;
 import com.simsilica.lemur.core.VersionedObject;
 import com.simsilica.lemur.core.VersionedReference;
 
-public class OptionValueModel<T> implements VersionedObject<T>{
+public class ModelOptionValue<T> implements VersionedObject<T>{
 
 	private final List<T> values;
 	private int value; 
     private long version;
     
-	public OptionValueModel(List<T> values, int index) {
+	public ModelOptionValue(List<T> values, int index) {
 		this.values = values;
 		this.value = index;
 	}
 
-	public OptionValueModel(List<T> values, T value) {
+	public ModelOptionValue(List<T> values, T value) {
 		this(values, values.indexOf(value));
 	}
 	

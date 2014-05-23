@@ -1,6 +1,9 @@
 // License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package lemur_ext;
 
+import java.math.RoundingMode;
+
+import com.google.common.math.DoubleMath;
 import com.simsilica.lemur.RangedValueModel;
 import com.simsilica.lemur.core.VersionedReference;
 
@@ -10,16 +13,15 @@ import com.simsilica.lemur.core.VersionedReference;
 */
 public class Models {
 	
-    public static <T> RangedValueModel asRangedValueModel(OptionValueModel<T> m) {
+    public static <T> RangedValueModel asRangedValueModel(ModelOptionValue<T> m) {
     	return new RangedValueModelProxy(m);
     }
     
 	static class RangedValueModelProxy implements RangedValueModel {
-		private final OptionValueModel<?> wrappee; 
+		private final ModelOptionValue<?> wrappee; 
 		private final int max;
-		private double v;
 		
-		RangedValueModelProxy(OptionValueModel<?> m) {
+		RangedValueModelProxy(ModelOptionValue<?> m) {
 			wrappee = m;
 			max = wrappee.getValues().size() - 1;
 		}
@@ -81,7 +83,9 @@ public class Models {
 
 		@Override
 		public void setValue(double v) {
-			wrappee.setIndex((int) Math.round(v));
+			//int v0 = (int) Math.round(v);
+			int v0 = DoubleMath.roundToInt(v, RoundingMode.HALF_EVEN);
+			wrappee.setIndex(v0);
 		}
 		
 	}
