@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sandbox.HudSettings">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="video">
+            <content>
+                  <ScrollPane prefViewportHeight="167.0" prefViewportWidth="320.0">
+                     <content>
+                        <GridPane hgap="10.0" layoutX="54.0" layoutY="-65.0" prefHeight="169.0" prefWidth="320.0" vgap="5.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="resolution" />
+                              <Label layoutX="20.0" layoutY="31.0" text="fullscreen" GridPane.rowIndex="1" />
+                              <Label layoutX="20.0" layoutY="87.0" text="vsync" GridPane.rowIndex="2" />
+                              <ChoiceBox fx:id="resolution" prefWidth="150.0" GridPane.columnIndex="1" />
+                              <CheckBox fx:id="fullscreen" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="vsync" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="show statistics" GridPane.rowIndex="5" />
+                              <Label text="show fps" GridPane.rowIndex="4" />
+                              <Label text="anti-aliasing" GridPane.rowIndex="3" />
+                              <ChoiceBox fx:id="antialiasing" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <CheckBox fx:id="showFps" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <CheckBox fx:id="showStats" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Button fx:id="applyVideo" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="apply" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+            </content>
+          </Tab>
+          <Tab text="audio">
+               <content>
+                  <ScrollPane prefViewportHeight="167.0" prefViewportWidth="320.0">
+                     <content>
+                        <GridPane hgap="10.0" prefHeight="166.0" prefWidth="319.0" vgap="5.0" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <Label text="music" GridPane.rowIndex="2" />
+                              <Label text="sound" GridPane.rowIndex="1" />
+                              <Slider fx:id="volumeMaster" GridPane.columnIndex="1" />
+                              <Slider fx:id="volumeSound" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Slider fx:id="volumeMusic" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="all" />
+                           </children>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+            <Tab disable="true" text="controls">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

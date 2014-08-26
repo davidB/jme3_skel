@@ -1,3 +1,5 @@
+/lib
+
 # gradle
 build
 .gradle
@@ -13,6 +15,8 @@ build
 .classpath
 .project
 .settings
+.apt_generated
+.factorypath
 
 # crash
 hs_err_pid*.log

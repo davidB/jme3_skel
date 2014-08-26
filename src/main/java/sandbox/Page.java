@@ -1,40 +1,40 @@
 // License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package sandbox;
 
-import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
-import com.simsilica.lemur.Container;
-import com.simsilica.lemur.event.BaseAppState;
+import javax.inject.Inject;
+
+import jme3_ext.AppState0;
+import lombok.RequiredArgsConstructor;
+
+import com.jme3x.jfx.FXMLHud;
+import com.jme3x.jfx.GuiManager;
 
 /**
  *
  * @author David Bernard
  */
-abstract public class Page extends BaseAppState {
+@RequiredArgsConstructor(onConstructor=@__(@Inject))
+public class Page<T> extends AppState0 {
+	final GuiManager guiManager;
+	FXMLHud<T> hud;
 
-    Container hudPanel;
-    SimpleApplication app;
+	FXMLHud<T> createHud(){
+		return null;
+	}
 
-    abstract Container newHud();
+	@Override
+	public void doInitialize() {
+		hud = createHud();
+		if (hud != null) {
+			hud.precache();
+			guiManager.attachHudAsync(hud);
+		}
+	}
 
-    @Override
-    protected void initialize(Application aplctn) {
-        app = ((SimpleApplication) aplctn);
-        hudPanel = newHud();
-    }
-
-    @Override
-    protected void cleanup(Application aplctn) {
-        hudPanel = null;
-    }
-
-    @Override
-    protected void enable() {
-        app.getGuiNode().attachChild(hudPanel);
-    }
-
-    @Override
-    protected void disable() {
-        app.getGuiNode().detachChild(hudPanel);
-    }
+	@Override
+	public void doDispose() {
+		if (hud != null){
+			guiManager.detachHudAsync(hud);
+		}
+	}
 }
