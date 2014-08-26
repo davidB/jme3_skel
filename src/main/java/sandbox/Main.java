@@ -1,7 +1,9 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package sandbox;
 
+import com.google.common.base.Function;
 import com.jme3.app.FlyCamAppState;
+import com.jme3.app.SettingsDialog;
 
 import gui_utils.PageManager;
 
@@ -46,15 +48,22 @@ public class Main extends SimpleApplication {
         Lemur,
     }
     PageManager pageManager;
+	Function<Main, Boolean> onNextReshape;
 
     public static void main(String[] args) {
-        AppSettings settings = new AppSettings(true);
-        //settings.setResolution(settings.getMinWidth(), settings.getMinHeight());
-        settings.setFullscreen(false);
-        Main app = new Main();
-        app.settings = settings;
-        app.showSettings = false;
-        app.start();
+        try {
+            AppSettings settings = new AppSettings(true);
+            settings.setTitle("Demo Lemur + Skeleton");
+        	settings.load(settings.getTitle());
+        	//settings.setResolution(settings.getMinWidth(), settings.getMinHeight());
+        	settings.setFullscreen(false);
+	        Main app = new Main();
+	        app.settings = settings;
+	        app.showSettings = false;
+	        app.start();
+        } catch(Exception exc) {
+        	exc.printStackTrace();
+        }
     }
 
     @Override
@@ -145,4 +154,17 @@ public class Main extends SimpleApplication {
         geom.setMaterial(mat);
         rootNode.attachChild(geom);
     }
+
+	public AppSettings getSettings() {
+		return this.settings;
+	}
+	
+	@Override
+	public void reshape(int w, int h) {
+		super.reshape(w, h);
+		if (onNextReshape != null) {
+			onNextReshape.apply(this);
+			onNextReshape = null;
+		}
+	}
 }

@@ -45,6 +45,8 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
     protected transient LC lc = null;
     protected transient AC colSpecs = null, rowSpecs = null;
     public MigLayoutDebugInfo debug = null;
+    private Vector3f psize = null;
+    private Grid grid;
 
     public MigLayout() {
         this("", "", "");
@@ -69,23 +71,27 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
         if (parent != null) {
             parent.invalidate();
         }
+       //grid.invalidateContainerSize();
     }
 
     @Override
     public void calculatePreferredSize(Vector3f size) {
-    	Vector3f ps = parent.getSize();
-    	UnitValue wp = lc.getWidth().getPreferred();
-    	float w = (wp == null) ? ps.x : wp.getPixels(ps.x, null, null); 
-    	UnitValue hp = lc.getHeight().getPreferred();
-    	float h = (hp == null) ? ps.y : hp.getPixels(ps.y, null, null);
-    	size.set(w, h, 0);
+    	if (psize == null) {
+	    	Vector3f ps = parent.getSize();
+	    	UnitValue wp = lc.getWidth().getPreferred();
+	    	float w = (wp == null) ? ps.x : wp.getPixels(ps.x, null, null); 
+	    	UnitValue hp = lc.getHeight().getPreferred();
+	    	float h = (hp == null) ? ps.y : hp.getPixels(ps.y, null, null);
+	    	psize = new Vector3f(w, h, 0);
+    	}
+    	size.set(psize);
         //size.set(parent.getSize());
     }
 
     @Override
     public void reshape(Vector3f pos, Vector3f size) {
         System.out.println("reshape layout : " + wrapper + " .. " + parent + ".." + pos + "/" + size);
-        Grid grid = new Grid(wrapper, lc, rowSpecs, colSpecs, ccMap, null);
+        grid = new Grid(wrapper, lc, rowSpecs, colSpecs, ccMap, null);
         int[] b = new int[]{
             (int) pos.x,
             (int) pos.y,
@@ -93,7 +99,7 @@ public class MigLayout extends AbstractGuiComponent implements GuiLayout, Clonea
             (int) size.y
         };
         grid.layout(b, lc.getAlignX(), lc.getAlignY(), debug != null, false);
-        parent.getNode().detachChildNamed(MigLayoutDebugInfo.nodeName);
+        System.out.println("nb detach : " + parent.getNode().detachChildNamed(MigLayoutDebugInfo.nodeName));
         if (debug != null) {
             grid.paintDebug();
             debug.setContainer(size.x, size.y);
