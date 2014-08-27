@@ -1,7 +1,5 @@
 package jme3_ext;
 
-import java.util.concurrent.ExecutionException;
-
 import javax.inject.Singleton;
 
 import com.jme3.app.Application;

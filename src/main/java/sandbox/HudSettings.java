@@ -131,7 +131,6 @@ public class HudSettings {
 		};
 
 		applyVideo.onActionProperty().set((v) -> {
-			System.out.println("apply Video");
 			apply(app);
 			saveSettings.run();
 			applyVideo.setDisable(true);
@@ -196,7 +195,6 @@ public class HudSettings {
 	}
 
     void loadAntialias(AppSettings settings0) {
-    	System.out.println("samplesss : "+ settings0.getSamples());
     	List<Integer> r = new LinkedList<Integer>();
     	r.add(0);
         r.add(2);

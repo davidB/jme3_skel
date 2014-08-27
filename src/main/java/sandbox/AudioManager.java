@@ -50,7 +50,6 @@ public class AudioManager {
 		float factor1 = Math.max(0.01f, soundVolume.floatValue());
 		app.getListener().setVolume(masterVolume.floatValue() * factor1);
 		float volume = musicVolume.floatValue() / factor1;
-		System.out.println("volume final :" + volume + " x " + (masterVolume.floatValue() * factor1) + " = " + (volume * masterVolume.floatValue() * factor1));
 		app.enqueue(()-> {
 			musics.forEach((m) -> {
 				m.setVolume(volume);
