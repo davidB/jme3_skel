@@ -1,10 +1,11 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package sandbox;
 
-import gui_utils.PageManager;
 import javafx.scene.Scene;
 
 import javax.inject.Inject;
+
+import jme3_ext.PageManager;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;

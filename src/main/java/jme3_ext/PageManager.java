@@ -1,5 +1,5 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-package gui_utils;
+package jme3_ext;
 
 import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;

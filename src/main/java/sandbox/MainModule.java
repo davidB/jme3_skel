@@ -3,12 +3,11 @@ package sandbox;
 import java.util.concurrent.CountDownLatch;
 import java.util.prefs.BackingStoreException;
 
-import gui_utils.PageManager;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import jme3_ext.JmeModule;
+import jme3_ext.PageManager;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
