@@ -139,9 +139,9 @@ public class HudSettings {
 		applyVideo.setDisable(true);
 
 		//TODO save when tab lost focus
-		volumeMaster.valueProperty().bindBidirectional(audio.master);
-		volumeMusic.valueProperty().bindBidirectional(audio.music);
-		volumeSound.valueProperty().bindBidirectional(audio.sound);
+		volumeMaster.valueProperty().bindBidirectional(audio.masterVolume);
+		volumeMusic.valueProperty().bindBidirectional(audio.musicVolume);
+		volumeSound.valueProperty().bindBidirectional(audio.soundVolume);
 		audio.loadFromAppSettings();
 		ChangeListener<Boolean> saveAudio = (v,o,n) -> {
 			// on lost focus
