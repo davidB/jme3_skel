@@ -19,8 +19,7 @@ import dagger.Provides;
 
 @Module(
 	injects = {
-		SimpleApplication.class,
-		PageManager.class,
+		Main.class,
 	},
 	includes = {
 		JmeModule.class,

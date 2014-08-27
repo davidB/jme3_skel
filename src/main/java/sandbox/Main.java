@@ -2,6 +2,9 @@
 package sandbox;
 
 import gui_utils.PageManager;
+import javafx.scene.Scene;
+
+import javax.inject.Inject;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
@@ -9,7 +12,8 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.Camera;
-import com.jme3.system.AppSettings;
+import com.jme3x.jfx.FxPlatformExecutor;
+import com.jme3x.jfx.GuiManager;
 
 import dagger.ObjectGraph;
 
@@ -21,32 +25,22 @@ public class Main {
 		return true;
 	}
 
-	//@SuppressWarnings("AssertWithSideEffects")
 	public static void main(final String[] args) {
 		assert Main.enabled();
 		if (!Main.assertionsEnabled) {
 			throw new RuntimeException("Assertions must be enabled (vm args -ea");
 		}
 		ObjectGraph injector = ObjectGraph.create(new MainModule());
-		SimpleApplication app = injector.get(SimpleApplication.class);
-		PageManager pageManager = injector.get(PageManager.class);
-		//TODO load style.css
-
-//		app.enqueue(()-> {
-//			app.getStateManager().attach(injector.get(AppStateInGame.class));
-//			return true;
-//		});
-//		setAspectRatio(app, 16, 9);
-		setDebug(app, true);
-		initPages(app, true, pageManager);
+		injector.get(Main.class); // Main constructor used to initialize service
 	}
 
-	public static AppSettings appSettings() {
-		AppSettings settings = new AppSettings(true);
-		//settings.setResolution(640,480);
-		//	settings.setRenderer("JOGL");
-		//	settings.setRenderer(AppSettings.LWJGL_OPENGL3);
-		return settings;
+	//HACK to receive service without need to explicitly list them and to initialize them
+	@Inject
+	Main(SimpleApplication app, GuiManager guiManager, PageManager pageManager) {
+//		setAspectRatio(app, 16, 9);
+		setDebug(app, true);
+		initGui(guiManager);
+		initPages(pageManager, app, true);
 	}
 
 	static public void setDebug(SimpleApplication app, boolean v) {
@@ -94,9 +88,7 @@ public class Main {
 		}
 	}
 
-
-
-	static void initPages(SimpleApplication app, boolean debug, PageManager pageManager) {
+	static void initPages(PageManager pageManager, SimpleApplication app, boolean debug) {
 		app.enqueue(() -> {
 			InputManager inputManager = app.getInputManager();
 			if (debug) {
@@ -116,15 +108,13 @@ public class Main {
 		});
 	}
 
-
-	//    void spawn3DObject() {
-	//        // Something in scene
-	//        Box box = new Box(1, 1, 1);
-	//        Geometry geom = new Geometry("Box", box);
-	//        Material mat = new Material(this.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-	//        mat.setColor("Color", ColorRGBA.Pink);
-	//        mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-	//        geom.setMaterial(mat);
-	//        rootNode.attachChild(geom);
-	//    }
+	static void initGui(GuiManager guiManager) {
+		//see http://blog.idrsolutions.com/2014/04/use-external-css-files-javafx/
+		Scene scene = guiManager.getjmeFXContainer().getScene();
+		FxPlatformExecutor.runOnFxApplication(() -> {
+			String css = Main.class.getResource("main.css").toExternalForm();
+			scene.getStylesheets().clear();
+			scene.getStylesheets().add(css);
+		});
+	}
 }
