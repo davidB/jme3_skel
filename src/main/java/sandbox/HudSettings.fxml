@@ -57,8 +57,9 @@
                      <content>
                         <GridPane hgap="10.0" prefHeight="166.0" prefWidth="319.0" vgap="5.0" BorderPane.alignment="CENTER">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="10.0" prefWidth="63.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.0" minWidth="10.0" prefWidth="172.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="55.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -75,6 +76,8 @@
                               <Slider fx:id="volumeSound" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Slider fx:id="volumeMusic" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="all" />
+                              <Button fx:id="testSound" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="testMusic" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </content>

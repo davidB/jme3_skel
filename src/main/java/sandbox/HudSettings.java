@@ -20,7 +20,6 @@ import javafx.util.StringConverter;
 import javax.inject.Inject;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
@@ -61,6 +60,12 @@ public class HudSettings {
 	public Button applyVideo;
 
 	@FXML
+	public Button testSound;
+
+	@FXML
+	public Button testMusic;
+
+	@FXML
 	public void initialize() {
 		antialiasing.setConverter(new StringConverter<Integer>() {
 			ResourceBundle resourceBundle = ResourceBundle.getBundle("com.jme3.app/SettingsDialog");
@@ -90,36 +95,64 @@ public class HudSettings {
 				return null;
 			}
 		});
-		antialiasing.valueProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
-		fullscreen.selectedProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
-		resolution.valueProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
-		showFps.selectedProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
-		showStats.selectedProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
-		vsync.selectedProperty().addListener((v,n,o) -> applyVideo.setDisable(false));
+		antialiasing.valueProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+		fullscreen.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+		resolution.valueProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+		showFps.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+		showStats.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+		vsync.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
+
+		volumeMaster.setMax(1.0);
+		volumeMaster.setMin(0.0);
+		volumeMusic.setMax(1.0);
+		volumeMusic.setMin(0.0);
+		volumeSound.setMax(1.0);
+		volumeSound.setMin(0.0);
+		testSound.setDisable(true);
+		testMusic.setDisable(true);
 	}
 
-	public void load(SimpleApplication app, String prefKey) {
+	public void load(SimpleApplication app, String prefKey, AudioManager audio) {
 		final AppSettings settingsInit = new AppSettings(false);
 		settingsInit.copyFrom(app.getContext().getSettings());
-
 		loadDisplayModes(settingsInit);
 		fullscreen.setSelected(settingsInit.isFullscreen());
 		vsync.setSelected(settingsInit.isVSync());
 		//showStats.setSelected(settingsInit.is) = new DefaultCheckboxModel();
 		//showFps.setSelected(settingsInit.isFullscreen());
 		loadAntialias(settingsInit);
-		applyVideo.onActionProperty().set((v) -> {
-			System.out.println("apply Video");
-			apply(app);
+		Runnable saveSettings = () -> {
 			try {
 				app.getContext().getSettings().save(prefKey);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		};
+
+		applyVideo.onActionProperty().set((v) -> {
+			System.out.println("apply Video");
+			apply(app);
+			saveSettings.run();
 			applyVideo.setDisable(true);
 		});
 		applyVideo.setDisable(true);
+
+		//TODO save when tab lost focus
+		volumeMaster.valueProperty().bindBidirectional(audio.master);
+		volumeMusic.valueProperty().bindBidirectional(audio.music);
+		volumeSound.valueProperty().bindBidirectional(audio.sound);
+		audio.loadFromAppSettings();
+		ChangeListener<Boolean> saveAudio = (v,o,n) -> {
+			// on lost focus
+			if (!n) {
+				audio.saveIntoAppSettings();
+				saveSettings.run();
+			}
+		};
+		volumeMaster.focusedProperty().addListener(saveAudio);
+		volumeMusic.focusedProperty().addListener(saveAudio);
+		volumeSound.focusedProperty().addListener(saveAudio);
 	}
 
 	void loadDisplayModes(AppSettings settings0) {

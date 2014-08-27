@@ -36,6 +36,8 @@ dependencies {
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
 	runtime "com.jme3:jme3-lwjgl:${v_jme}"
 	runtime "com.jme3:jme3-desktop:${v_jme}"
+	runtime "com.jme3:jme3-testdata:${v_jme}"
+	runtime "com.jme3:jme3-jogg:${v_jme}"
 	runtime "org.slf4j:slf4j-jdk14:${v_slf4j}"
 }
 
