@@ -1,5 +1,7 @@
 package jme3_ext;
 
+import java.util.concurrent.ExecutionException;
+
 import javax.inject.Singleton;
 
 import com.jme3.app.Application;
@@ -43,11 +45,21 @@ public class JmeModule{
 		return new ProtonCursorProvider(app, app.getAssetManager(), app.getInputManager());
 	}
 
-	@Provides @Singleton
+	@Provides
+	@Singleton
 	public GuiManager guiManager(SimpleApplication app, ICursorDisplayProvider c) {
-		GuiManager guiManager = new GuiManager(app.getGuiNode(), app.getAssetManager(), app, false, c);
-		app.getInputManager().addRawInputListener(guiManager.getInputRedirector());
-		return guiManager;
+		try {
+			return app.enqueue(() -> {
+				//guiManager modify app.guiNode so it should run in JME Thread
+				GuiManager guiManager = new GuiManager(app.getGuiNode(), app.getAssetManager(), app, false, c);
+				app.getInputManager().addRawInputListener(guiManager.getInputRedirector());
+				return guiManager;
+			}).get();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 }
 
