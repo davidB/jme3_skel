@@ -7,12 +7,12 @@
 
 <AnchorPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sandbox.HudWelcome">
    <children>
-      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="31.0" text="MyGame" textAlignment="CENTER" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="31.0" />
-      <VBox layoutX="206.0" layoutY="111.0" prefHeight="40.0" prefWidth="100.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="31.0" styleClass="title" text="MyGame" textAlignment="CENTER" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="31.0" />
+      <VBox layoutX="206.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <Button fx:id="play" mnemonicParsing="false" text="Play" />
-            <Button fx:id="options" mnemonicParsing="false" text="Options" />
-            <Button fx:id="quit" mnemonicParsing="false" text="Quit" />
+            <Button fx:id="play" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Play" />
+            <Button fx:id="options" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Options" />
+            <Button fx:id="quit" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Quit" />
          </children>
       </VBox>
    </children>

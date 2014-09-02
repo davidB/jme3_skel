@@ -2,6 +2,7 @@
 package sandbox;
 
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 
 import javax.inject.Inject;
 
@@ -113,6 +114,8 @@ public class Main {
 		//see http://blog.idrsolutions.com/2014/04/use-external-css-files-javafx/
 		Scene scene = guiManager.getjmeFXContainer().getScene();
 		FxPlatformExecutor.runOnFxApplication(() -> {
+			Font.loadFont(Main.class.getResource("/Fonts/Eduardo-Barrasa.ttf").toExternalForm(), 10);
+			Font.loadFont(Main.class.getResource("/Fonts/bobotoh.ttf").toExternalForm(), 10);
 			String css = Main.class.getResource("main.css").toExternalForm();
 			scene.getStylesheets().clear();
 			scene.getStylesheets().add(css);
