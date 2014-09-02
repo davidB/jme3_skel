@@ -63,6 +63,10 @@ apply plugin: 'application'
 
 mainClassName = ext.mainClass
 
+applicationDefaultJvmArgs = [
+    "-ea"
+    , "-Djava.util.logging.config.file=logging.properties"
+]
 apply plugin: 'launch4j'
 
 launch4j {
