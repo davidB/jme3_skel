@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<BorderPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sandbox.HudSettings">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="video">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="167.0" prefViewportWidth="320.0" BorderPane.alignment="CENTER">
+                     <content>
+                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <center>
+                              <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" vgap="5.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="10.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="resolution" />
+                                    <Label layoutX="20.0" layoutY="31.0" text="fullscreen" GridPane.rowIndex="1" />
+                                    <Label layoutX="20.0" layoutY="87.0" text="vsync" GridPane.rowIndex="2" />
+                                    <ChoiceBox fx:id="resolution" prefWidth="150.0" GridPane.columnIndex="1" />
+                                    <CheckBox fx:id="fullscreen" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="vsync" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="show statistics" GridPane.rowIndex="5" />
+                                    <Label text="show fps" GridPane.rowIndex="4" />
+                                    <Label text="anti-aliasing" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="antialiasing" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <CheckBox fx:id="showFps" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <CheckBox fx:id="showStats" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Button fx:id="applyVideo" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="apply" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </GridPane>
+                           </center>
+                        </BorderPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+          <Tab text="audio">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefViewportHeight="167.0" prefViewportWidth="320.0">
+                     <content>
+                        <BorderPane>
+                           <center>
+                              <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" vgap="5.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <children>
+                                    <Label text="music" GridPane.rowIndex="2" />
+                                    <Label text="sound" GridPane.rowIndex="1" />
+                                    <Slider fx:id="volumeMaster" GridPane.columnIndex="1" />
+                                    <Slider fx:id="volumeSound" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Slider fx:id="volumeMusic" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="all" />
+                                    <Button fx:id="testSound" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Button fx:id="testMusic" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </center>
+                        </BorderPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+            <Tab disable="true" text="controls">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="title" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="title" text="Title" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="back" mnemonicParsing="false" text="back" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
