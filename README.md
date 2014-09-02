@@ -1,11 +1,11 @@
 This project is my project skeleton for jmonkeyengine 3 (jme3).
 I use it to experiment and to store common game behavior (not part of a lib).
 
-<iframe width="420" height="315" src="//www.youtube.com/embed/TGXrvvhBb_c" frameborder="0" allowfullscreen></iframe>
+[![demo 20140902](http://img.youtube.com/vi/TGXrvvhBb_c/0.jpg)](http://www.youtube.com/watch?v=TGXrvvhBb_c)
 
-I show how I integrate i:
+Project show, how I integrate:
 
-* [jmonkeyengine]()
+* jmonkeyengine
 * gradle as build tool
 * java8
 * javafx (via jme3-jfx) for gui 
