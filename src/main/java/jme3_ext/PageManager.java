@@ -22,25 +22,23 @@ public class PageManager {
         if (p == current) {
             return;
         }
-        if (current != -1) {
-            stateManager.detach(pages[current]);
-        }
+        hide(current);
         current = p;
-        stateManager.attach(pages[current]);
+        show(current);
     }
 
     public void show(int p) {
         if (p < 0 || p >= pages.length) {
             return;
         }
-        stateManager.attach(pages[current]);
+        stateManager.attach(pages[p]);
     }
 
     public void hide(int p) {
         if (p < 0 || p >= pages.length) {
             return;
         }
-        stateManager.detach(pages[current]);
+        stateManager.detach(pages[p]);
     }
 
     public void registerAction(InputManager inputManager) {

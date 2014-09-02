@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.util.StringConverter;
 
@@ -28,6 +29,11 @@ import com.jme3.system.AppSettings;
 public class HudSettings {
 //	@FXML
 //	public Region root;
+	@FXML
+	public Label title;
+
+	@FXML
+	public Button back;
 
 	@FXML
 	public ChoiceBox<Integer> antialiasing;
