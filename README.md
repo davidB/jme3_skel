@@ -10,7 +10,7 @@ I show how I integrate i:
 * logback (via slf4j) as logging framework
 * dagger as dependency injection (better suited for android than guice)
 * lombok as sugar syntax over java
-* packaging (via getdown) WIP
+* packaging (via getdown + jre provided) WIP
 
 ## GUI
 
