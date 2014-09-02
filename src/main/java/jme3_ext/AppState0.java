@@ -20,9 +20,13 @@ abstract public class AppState0 extends AbstractAppState {
 		super.initialize(stateManager, app);
 		this.app = (SimpleApplication)app;
 		initialized = true;
+		log.trace("doInitialize(): {}", this);
 		doInitialize();
 		if( isEnabled() ) {
+			log.trace("doEnable(): {}", this);
 			doEnable();
+		} else {
+			setEnabled(true);
 		}
 	}
 
@@ -35,10 +39,10 @@ abstract public class AppState0 extends AbstractAppState {
 			return;
 		try {
 			if( enabled ) {
-				log.trace("enable():" + this);
+				log.trace("doEnable(): {}", this);
 				doEnable();
 			} else {
-				log.trace("disable():" + this);
+				log.trace("doDisable(): {}", this);
 				doDisable();
 			}
 		} catch(Exception exc) {
@@ -64,10 +68,11 @@ abstract public class AppState0 extends AbstractAppState {
 		setEnabled(false);
 		try {
 			if (isInitialized()) {
+				log.trace("doDispose(): {}", this);
 				doDispose();
 			}
 		}catch (Exception exc) {
-			log.warn("failed to dispose", exc);
+			log.warn("failed to doDispose()", exc);
 		}
 		initialized = false;
 	}

@@ -33,7 +33,6 @@ class PageWelcome extends Page<HudWelcome> {
 		p.play.onActionProperty().set((v) -> { });
 		p.options.onActionProperty().set((v) -> {
 			app.enqueue(()-> {
-				System.out.println("goto settings");
 				pm.get().goTo(Pages.Settings.ordinal());
 				return true;
 			});
