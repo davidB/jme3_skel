@@ -67,20 +67,3 @@ applicationDefaultJvmArgs = [
     "-ea"
     , "-Djava.util.logging.config.file=logging.properties"
 ]
-apply plugin: 'launch4j'
-
-launch4j {
-    mainClassName = ext.mainClass
-    //icon = 'icons/myApp.ico'
-}
-
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'edu.sc.seis.gradle:launch4j:1.0.6'
-    }
-}
