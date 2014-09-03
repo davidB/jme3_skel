@@ -18,15 +18,16 @@ abstract public class AppState0 extends AbstractAppState {
 	@Override
 	public final void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);
-		this.app = (SimpleApplication)app;
-		initialized = true;
-		log.trace("doInitialize(): {}", this);
-		doInitialize();
-		if( isEnabled() ) {
-			log.trace("doEnable(): {}", this);
-			doEnable();
-		} else {
+		try {
+			this.app = (SimpleApplication)app;
+			log.trace("doInitialize(): {}", this);
+			doInitialize();
+			initialized = true;
+			super.setEnabled(false);
 			setEnabled(true);
+		} catch(Exception exc) {
+			log.warn("failed to initialize(..,..)", exc);
+			throw exc;
 		}
 	}
 
@@ -47,6 +48,7 @@ abstract public class AppState0 extends AbstractAppState {
 			}
 		} catch(Exception exc) {
 			log.warn("failed to setEnabled(" + enabled + ")", exc);
+			throw exc;
 		}
 	}
 
@@ -73,6 +75,7 @@ abstract public class AppState0 extends AbstractAppState {
 			}
 		}catch (Exception exc) {
 			log.warn("failed to doDispose()", exc);
+			throw exc;
 		}
 		initialized = false;
 	}
