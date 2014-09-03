@@ -1,4 +1,4 @@
-package sandbox;
+package jme3_skel;
 enum Pages {
 
 	Welcome,

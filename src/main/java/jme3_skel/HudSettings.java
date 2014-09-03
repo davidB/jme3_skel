@@ -1,4 +1,4 @@
-package sandbox;
+package jme3_skel;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
@@ -20,6 +20,7 @@ import javafx.util.StringConverter;
 
 import javax.inject.Inject;
 
+import jme3_ext.AppSettingsLoader;
 import lombok.RequiredArgsConstructor;
 
 import com.jme3.app.SimpleApplication;
@@ -27,6 +28,9 @@ import com.jme3.system.AppSettings;
 
 @RequiredArgsConstructor(onConstructor=@__(@Inject))
 public class HudSettings {
+	final AppSettingsLoader loader;
+	final AudioManager audio;
+
 //	@FXML
 //	public Region root;
 	@FXML
@@ -51,13 +55,13 @@ public class HudSettings {
 	public CheckBox showStats;
 
 	@FXML
-	public Slider volumeMaster;
+	public Slider audioMasterVolume;
 
 	@FXML
-	public Slider volumeMusic;
+	public Slider audioMusicVolume;
 
 	@FXML
-	public Slider volumeSound;
+	public Slider audioSoundVolume;
 
 	@FXML
 	public CheckBox vsync;
@@ -66,10 +70,10 @@ public class HudSettings {
 	public Button applyVideo;
 
 	@FXML
-	public Button testSound;
+	public Button audioSoundTest;
 
 	@FXML
-	public Button testMusic;
+	public Button audioMusicTest;
 
 	@FXML
 	public void initialize() {
@@ -108,17 +112,17 @@ public class HudSettings {
 		showStats.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
 		vsync.selectedProperty().addListener((v,o,n) -> applyVideo.setDisable(false));
 
-		volumeMaster.setMax(1.0);
-		volumeMaster.setMin(0.0);
-		volumeMusic.setMax(1.0);
-		volumeMusic.setMin(0.0);
-		volumeSound.setMax(1.0);
-		volumeSound.setMin(0.0);
-		testSound.setDisable(true);
-		testMusic.setDisable(true);
+		audioMasterVolume.setMax(1.0);
+		audioMasterVolume.setMin(0.0);
+		audioMusicVolume.setMax(1.0);
+		audioMusicVolume.setMin(0.0);
+		audioSoundVolume.setMax(1.0);
+		audioSoundVolume.setMin(0.0);
+		audioSoundTest.setDisable(true);
+		audioMusicTest.setDisable(true);
 	}
 
-	public void load(SimpleApplication app, String prefKey, AudioManager audio) {
+	public void load(SimpleApplication app) {
 		final AppSettings settingsInit = new AppSettings(false);
 		settingsInit.copyFrom(app.getContext().getSettings());
 		loadDisplayModes(settingsInit);
@@ -129,7 +133,7 @@ public class HudSettings {
 		loadAntialias(settingsInit);
 		Runnable saveSettings = () -> {
 			try {
-				app.getContext().getSettings().save(prefKey);
+				loader.save(app.getContext().getSettings());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -144,9 +148,9 @@ public class HudSettings {
 		applyVideo.setDisable(true);
 
 		//TODO save when tab lost focus
-		volumeMaster.valueProperty().bindBidirectional(audio.masterVolume);
-		volumeMusic.valueProperty().bindBidirectional(audio.musicVolume);
-		volumeSound.valueProperty().bindBidirectional(audio.soundVolume);
+		audioMasterVolume.valueProperty().bindBidirectional(audio.masterVolume);
+		audioMusicVolume.valueProperty().bindBidirectional(audio.musicVolume);
+		audioSoundVolume.valueProperty().bindBidirectional(audio.soundVolume);
 		audio.loadFromAppSettings();
 		ChangeListener<Boolean> saveAudio = (v,o,n) -> {
 			// on lost focus
@@ -155,9 +159,9 @@ public class HudSettings {
 				saveSettings.run();
 			}
 		};
-		volumeMaster.focusedProperty().addListener(saveAudio);
-		volumeMusic.focusedProperty().addListener(saveAudio);
-		volumeSound.focusedProperty().addListener(saveAudio);
+		audioMasterVolume.focusedProperty().addListener(saveAudio);
+		audioMusicVolume.focusedProperty().addListener(saveAudio);
+		audioSoundVolume.focusedProperty().addListener(saveAudio);
 	}
 
 	void loadDisplayModes(AppSettings settings0) {

@@ -1,4 +1,4 @@
-package sandbox;
+package jme3_skel;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,7 +15,7 @@ public class HudWelcome {
 	public Button play;
 
 	@FXML
-	public Button options;
+	public Button settings;
 
 	@FXML
 	public Button quit;

@@ -1,5 +1,5 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
-package sandbox;
+package jme3_skel;
 
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -40,9 +40,9 @@ public class Main {
 	@Inject
 	Main(SimpleApplication app, GuiManager guiManager, PageManager pageManager) {
 //		setAspectRatio(app, 16, 9);
-		setDebug(app, true);
+		setDebug(app, false);
 		initGui(guiManager);
-		initPages(pageManager, app, true);
+		initPages(pageManager, app, false);
 	}
 
 	static public void setDebug(SimpleApplication app, boolean v) {
@@ -116,7 +116,7 @@ public class Main {
 		FxPlatformExecutor.runOnFxApplication(() -> {
 			Font.loadFont(Main.class.getResource("/Fonts/Eduardo-Barrasa.ttf").toExternalForm(), 10);
 			Font.loadFont(Main.class.getResource("/Fonts/bobotoh.ttf").toExternalForm(), 10);
-			String css = Main.class.getResource("main.css").toExternalForm();
+			String css = Main.class.getResource("/Interface/main.css").toExternalForm();
 			scene.getStylesheets().clear();
 			scene.getStylesheets().add(css);
 		});

@@ -1,4 +1,4 @@
-package sandbox;
+package jme3_skel;
 
 import java.util.LinkedList;
 
@@ -9,12 +9,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import lombok.RequiredArgsConstructor;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.audio.AudioNode;
 
+@Singleton
 public class AudioManager {
 	public final FloatProperty masterVolume = new VolumeProperty("master");
 	public final FloatProperty musicVolume = new VolumeProperty("music");

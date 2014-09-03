@@ -1,11 +1,15 @@
-package sandbox;
+package jme3_skel;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
-import java.util.prefs.BackingStoreException;
 
-import javax.inject.Named;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+
 import javax.inject.Singleton;
 
+import jme3_ext.AppSettingsLoader;
 import jme3_ext.JmeModule;
 import jme3_ext.PageManager;
 
@@ -26,10 +30,24 @@ import dagger.Provides;
 )
 
 class MainModule {
-	@Named("prefKey")
+
 	@Provides
-	public String prefKey() {
-		return "sandbox.MyGame";
+	public AppSettingsLoader appSettingsLoader() {
+		return new AppSettingsLoader() {
+			final String prefKey = "sandbox.MyGame";
+
+			@Override
+			public AppSettings loadInto(AppSettings settings) throws Exception{
+				settings.load(prefKey);
+				return settings;
+			}
+
+			@Override
+			public AppSettings save(AppSettings settings) throws Exception{
+				settings.save(prefKey);
+				return settings;
+			}
+		};
 	}
 
 	@Singleton
@@ -58,14 +76,14 @@ class MainModule {
 
 	@Singleton
 	@Provides
-	public AppSettings appSettings(@Named("prefKey") String prefKey) {
+	public AppSettings appSettings(AppSettingsLoader appSettingsLoader, ResourceBundle resources) {
 		AppSettings settings = new AppSettings(true);
 		try {
-			settings.load(prefKey);
-		} catch (BackingStoreException e) {
-			// TODO Auto-generated catch block
+			settings = appSettingsLoader.loadInto(settings);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		settings.setTitle(resources.getString("title"));
 		//settings.setResolution(640,480);
 		//	settings.setRenderer("JOGL");
 		//	settings.setRenderer(AppSettings.LWJGL_OPENGL3);
@@ -89,5 +107,24 @@ class MainModule {
 		pages[Pages.Settings.ordinal()] = pageSettings;
 		PageManager pageManager = new PageManager(app.getStateManager(), pages);
 		return pageManager;
+	}
+
+	@Singleton
+	@Provides
+	public Locale locale() {
+		return Locale.getDefault();
+	}
+
+	@Provides
+	public ResourceBundle resources(Locale locale) {
+		return ResourceBundle.getBundle("Interface.labels", locale);
+	}
+
+	@Provides
+	public FXMLLoader fxmlLoader(ResourceBundle resources) {
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setResources(resources);
+		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+		return fxmlLoader;
 	}
 }

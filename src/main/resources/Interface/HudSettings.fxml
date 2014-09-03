@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<BorderPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sandbox.HudSettings">
+<BorderPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <TabPane prefHeight="200.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -77,14 +77,14 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                                  <children>
-                                    <Label text="music" GridPane.rowIndex="2" />
-                                    <Label text="sound" GridPane.rowIndex="1" />
-                                    <Slider fx:id="volumeMaster" GridPane.columnIndex="1" />
-                                    <Slider fx:id="volumeSound" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Slider fx:id="volumeMusic" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Label text="all" />
-                                    <Button fx:id="testSound" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Button fx:id="testMusic" mnemonicParsing="false" text="test" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Label text="%audioMusicVolume" GridPane.rowIndex="2" />
+                                    <Label text="%audioSoundVolume" GridPane.rowIndex="1" />
+                                    <Slider fx:id="audioMasterVolume" GridPane.columnIndex="1" />
+                                    <Slider fx:id="audioSoundVolume" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Slider fx:id="audioMusicVolume" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="%audioMasterVolume" />
+                                    <Button fx:id="audioSoundTest" mnemonicParsing="false" text="%audioSoundTest" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Button fx:id="audioMusicTest" mnemonicParsing="false" text="%audioMusicTest" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                            </center>
@@ -104,7 +104,7 @@
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="title" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="title" text="Title" HBox.hgrow="ALWAYS" />
+            <Label fx:id="title" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="title" text="%title" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </top>
