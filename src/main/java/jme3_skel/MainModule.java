@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 
@@ -16,6 +17,7 @@ import jme3_ext.PageManager;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
 import com.jme3.system.AppSettings;
+import com.jme3x.jfx.FxPlatformExecutor;
 
 import dagger.Module;
 import dagger.Provides;
@@ -59,6 +61,14 @@ class MainModule {
 			@Override
 			public void simpleInitApp() {
 				initializedSignal.countDown();
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				FxPlatformExecutor.runOnFxApplication(() -> {
+					Platform.exit();
+				});
 			}
 		};
 		app.setSettings(appSettings);

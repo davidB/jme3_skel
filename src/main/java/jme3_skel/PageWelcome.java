@@ -50,10 +50,10 @@ class PageWelcome extends AppState0 {
 				});
 			});
 			p.quit.onActionProperty().set((v) -> {
-				app.getContext().destroy(true);
-//				FxPlatformExecutor.runOnFxApplication(() -> {
-//					Platform.exit();
-//				});
+				app.enqueue(()->{
+					app.getContext().destroy(false);
+					return true;
+				});
 				//System.exit(0);
 			});
 		});
