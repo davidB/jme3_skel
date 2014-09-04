@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="hudWelcome" prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="31.0" styleClass="title" text="%title" textAlignment="CENTER" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="31.0" />
-      <VBox layoutX="206.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+      <VBox layoutX="206.0" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="menu" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
             <Button fx:id="play" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%play" />
             <Button fx:id="settings" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%settings" />
             <Button fx:id="quit" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%quit" />
-         </children>
-      </VBox>
+         </children></VBox>
    </children>
 </AnchorPane>

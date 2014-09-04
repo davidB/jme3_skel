@@ -1,19 +1,51 @@
+/* ref: http://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html */
+
 .root{
-    -fx-font-size: 1em;
-     /*-fx-font-family: "Courier New";*/
-    -fx-font-family: "Eduardo Barrasa";
-    -fx-base: rgb(132, 145, 47);
-    -fx-background-color: rgb(225, 228, 203);
+	-fx-font-size: 1em;
+	/*-fx-font-family: "Courier New";*/
+	-fx-font-family: "Eduardo Barrasa";
+	-fx-base: rgb(132, 145, 47);
+	-fx-background-color: rgb(225, 228, 203);
 }
 
 .button{
-    -fx-text-fill: rgb(49, 89, 23);
-    -fx-border-color: rgba(49, 89, 23, 0);
-    -fx-border-radius: 0;
-    -fx-padding: 3;
+	-fx-focus-traversable: true;
+	-fx-text-fill: rgb(49, 89, 23);
+	-fx-border-color: rgba(49, 89, 23, 0);
+	-fx-border-radius: 0;
+	-fx-padding: 3;
 }
 .title {
-    -fx-font-family: bobotoh;
-    -fx-font-size: 8em;
-    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, red 0%, black 100%)
+	-fx-font-family: bobotoh;
+	-fx-font-size: 8em;
+	-fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, red 0%, black 100%)
+}
+
+#hudWelcome .menu{
+	-fx-translate-x: -60;
+	-fx-translate-y: -60;
+	-fx-scale-x: 2.0;
+	-fx-scale-y: 2.0;
+}
+
+#hudWelcome .menu .button {
+	-fx-text-fill: rgb(49, 89, 23);
+	-fx-focus-color: transparent;
+	-fx-border-color: transparent;
+	-fx-background-color: transparent;
+	-fx-border-radius: 0;
+	-fx-padding: 3;
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+#hudWelcome .menu .button:hover {
+	-fx-scale-x: 1.1;
+	-fx-scale-y: 1.1;
+}
+#hudWelcome {
+	-fx-background-image: url("../Textures/350x150.gif");
+	-fx-background-size: contain;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center center;
 }
