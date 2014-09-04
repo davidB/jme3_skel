@@ -1,19 +1,14 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_skel;
 
-import javafx.application.Platform;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
-
 
 import jme3_ext.AppState0;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
 import jme3_ext.PageManager;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 
 import com.jme3x.jfx.FxPlatformExecutor;
 
@@ -21,7 +16,6 @@ import com.jme3x.jfx.FxPlatformExecutor;
  *
  * @author David Bernard
  */
-@Slf4j
 @RequiredArgsConstructor(onConstructor=@__(@Inject))
 class PageWelcome extends AppState0 {
 	private final HudTools hudTools;
@@ -54,7 +48,6 @@ class PageWelcome extends AppState0 {
 					app.getContext().destroy(false);
 					return true;
 				});
-				//System.exit(0);
 			});
 		});
 	}
