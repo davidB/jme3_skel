@@ -37,7 +37,7 @@ public class PageSettings extends AppState0{
 		app.getInputManager().setCursorVisible(true);
 		hudTools.show(hud);
 
-		audioMusicTest = new AudioNode(app.getAssetManager(), "Sound/Environment/Nature.ogg", true);
+		audioMusicTest = new AudioNode(app.getAssetManager(), "Sounds/BlackVortex.ogg", true);
 		audioMusicTest.setLooping(false);
 		audioMusicTest.setPositional(true);
 		audioMgr.musics.add(audioMusicTest);
