@@ -4,7 +4,7 @@
   * [bobotoh](http://www.dafont.com/fr/bobotoh.font) by [Wates Awal](http://www.dafont.com/fr/wates-awal.d5653)
   * [Eduardo Barrasa](http://www.dafont.com/fr/eduardo-barrasa.font) by [Eduardo Barrasa](http://www.dafont.com/fr/eduardo-barrasa.d5108)
 * Music :
-  * [Black Vortex](http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300037) from [incompetech](http://incompetech.com/)
+  * [Black Vortex](http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300037) by [Kevin MacLeod](http://incompetech.com/)
 
 # Tools
 
