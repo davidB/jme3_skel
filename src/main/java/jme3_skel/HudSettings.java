@@ -3,6 +3,8 @@ package jme3_skel;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.net.URL;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -10,26 +12,47 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import javax.inject.Inject;
 
 import jme3_ext.AppSettingsLoader;
+import jme3_ext.InputMapper;
+import jme3_ext.InputMapperHelpers;
+import jme3_ext.InputTextureFinder;
 import lombok.RequiredArgsConstructor;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.event.InputEvent;
 import com.jme3.system.AppSettings;
 
 @RequiredArgsConstructor(onConstructor=@__(@Inject))
-public class HudSettings {
+public class HudSettings implements Initializable {
 	final AppSettingsLoader loader;
 	final AudioManager audio;
+	final InputMapper inputMapper;
+	final Controls controls;
+	final InputTextureFinder inputTextureFinders;
+
+	private ResourceBundle resources;
 
 //	@FXML
 //	public Region root;
@@ -76,7 +99,11 @@ public class HudSettings {
 	public Button audioMusicTest;
 
 	@FXML
-	public void initialize() {
+	public TableView<Control<?>> controlsMapping;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		this.resources = resources;
 		antialiasing.setConverter(new StringConverter<Integer>() {
 			ResourceBundle resourceBundle = ResourceBundle.getBundle("com.jme3.app/SettingsDialog");
 
@@ -162,6 +189,8 @@ public class HudSettings {
 		audioMasterVolume.focusedProperty().addListener(saveAudio);
 		audioMusicVolume.focusedProperty().addListener(saveAudio);
 		audioSoundVolume.focusedProperty().addListener(saveAudio);
+
+		loadControls();
 	}
 
 	void loadDisplayModes(AppSettings settings0) {
@@ -245,5 +274,64 @@ public class HudSettings {
 		} catch(Exception exc) {
 			throw new RuntimeException(exc);
 		}
+    }
+
+    void loadControls() {
+    	controlsMapping.setItems(FXCollections.observableArrayList(controls.all));
+    	TableColumn<Control<?>, String> labels = (TableColumn<Control<?>, String>) controlsMapping.getColumns().get(0);
+    	labels.setCellValueFactory((p) -> new SimpleStringProperty(resources.getString(p.getValue().label)));
+//    	labels.setCellValueFactory(new PropertyValueFactory<Control<?>, String>("label")); //TODO i18n
+
+    	TableColumn<Control<?>, Collection<InputEvent>> inputs = (TableColumn<Control<?>, Collection<InputEvent>>) controlsMapping.getColumns().get(1);
+    	//inputs.setCellValueFactory((p) -> FXCollections.observableList(InputMapperHelpers.findTemplatesOf(inputMapper, p.getValue().value)));
+    	inputs.setCellValueFactory((p) -> new SimpleObjectProperty<>(InputMapperHelpers.findTemplatesOf(inputMapper, p.getValue().value)));
+    	inputs.setCellFactory(new Callback<TableColumn<Control<?>,Collection<InputEvent>>, TableCell<Control<?>,Collection<InputEvent>>>() {
+
+			@Override
+			public TableCell<Control<?>, Collection<InputEvent>> call(TableColumn<Control<?>, Collection<InputEvent>> param) {
+				return new TableCell<Control<?>, Collection<InputEvent>>(){
+					HBox container;
+
+					{
+						container = new HBox();
+						container.setAlignment(Pos.CENTER);
+						setGraphic(container);
+					}
+
+					@Override
+					protected void updateItem(java.util.Collection<InputEvent> item, boolean empty) {
+						container.getChildren().clear();
+						if (item != null) {
+							item.stream()
+							.map((v) -> inputTextureFinders.findUrl(v))
+							.forEach((v) -> {
+								Node n = (v == null) ? new Label("[?]") : new ImageView(v.toExternalForm());
+								container.getChildren().add(n);
+							})
+							;
+						}
+					};
+				};
+			}
+		});
+    	
+        controlsMapping.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+/*
+        firstNameCol.setMinWidth(100);
+        firstNameCol.setCellValueFactory(
+            new PropertyValueFactory<Person, String>("firstName"));
+        firstNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        firstNameCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Person, String>>() {
+                @Override
+                public void handle(CellEditEvent<Person, String> t) {
+                    ((Person) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                            ).setFirstName(t.getNewValue());
+                }
+            }
+        );
+*/
     }
 }

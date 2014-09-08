@@ -36,7 +36,12 @@ class PageWelcome extends AppState0 {
 
 		FxPlatformExecutor.runOnFxApplication(() -> {
 			HudWelcome p = hud.controller;
-			p.play.onActionProperty().set((v) -> { });
+			p.play.onActionProperty().set((v) -> {
+				app.enqueue(()-> {
+					pm.get().goTo(Pages.InGame.ordinal());
+					return true;
+				});
+			});
 			p.settings.onActionProperty().set((v) -> {
 				app.enqueue(()-> {
 					pm.get().goTo(Pages.Settings.ordinal());
@@ -45,7 +50,7 @@ class PageWelcome extends AppState0 {
 			});
 			p.quit.onActionProperty().set((v) -> {
 				app.enqueue(()->{
-					app.getContext().destroy(false);
+					app.stop();
 					return true;
 				});
 			});

@@ -3,7 +3,7 @@ enum Pages {
 
 	Welcome,
 	//        LevelSelection,
-	//        InGame,
+	InGame,
 	//        Loading,
 	//        Result,
 	Settings,

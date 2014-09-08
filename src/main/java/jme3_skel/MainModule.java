@@ -11,11 +11,14 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javax.inject.Singleton;
 
 import jme3_ext.AppSettingsLoader;
+import jme3_ext.InputMapper;
+import jme3_ext.InputMapperHelpers;
 import jme3_ext.JmeModule;
 import jme3_ext.PageManager;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
+import com.jme3.input.KeyInput;
 import com.jme3.system.AppSettings;
 import com.jme3x.jfx.FxPlatformExecutor;
 
@@ -94,6 +97,7 @@ class MainModule {
 			e.printStackTrace();
 		}
 		settings.setTitle(resources.getString("title"));
+		settings.setUseJoysticks(true);
 		//settings.setResolution(640,480);
 		//	settings.setRenderer("JOGL");
 		//	settings.setRenderer(AppSettings.LWJGL_OPENGL3);
@@ -102,7 +106,7 @@ class MainModule {
 
 	@Singleton
 	@Provides
-	public PageManager pageManager(SimpleApplication app, PageWelcome pageWelcome, PageSettings pageSettings) {
+	public PageManager pageManager(SimpleApplication app, PageWelcome pageWelcome, PageSettings pageSettings, PageInGame pageInGame) {
 		AppState[] pages = new AppState[Pages.values().length];
 		/*
          pages[Page.About.ordinal()] = new PageAbout(screen);
@@ -114,6 +118,7 @@ class MainModule {
          pages[Page.Settings.ordinal()] = new PageSettings(screen);
 		 */
 		pages[Pages.Welcome.ordinal()] = pageWelcome;
+		pages[Pages.InGame.ordinal()] = pageInGame;
 		pages[Pages.Settings.ordinal()] = pageSettings;
 		PageManager pageManager = new PageManager(app.getStateManager(), pages);
 		return pageManager;
@@ -136,5 +141,25 @@ class MainModule {
 		fxmlLoader.setResources(resources);
 		fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 		return fxmlLoader;
+	}
+
+	@Provides
+	@Singleton
+	public InputMapper inputMapper(Controls controls) {
+		//TODO save / restore mapper
+		InputMapper m = new InputMapper();
+		// arrow
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_UP, true, controls.moveZ.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_DOWN, false, controls.moveZ.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_RIGHT, true, controls.moveX.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_LEFT, false, controls.moveX.value);
+		// WASD / ZQSD
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_A, true, controls.moveZ.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, false, controls.moveZ.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, true, controls.moveX.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, false, controls.moveX.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, true, controls.moveZ.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, false, controls.moveX.value);
+		return m;
 	}
 }

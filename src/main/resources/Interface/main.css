@@ -49,3 +49,11 @@
 	-fx-background-repeat: no-repeat;
 	-fx-background-position: center center;
 }
+
+#hudInGame * {
+	-fx-background-color: transparent;
+}
+#consoleLog {
+	-fx-opacity: 0.85;
+	-fx-font-family: "Courier New";
+}
