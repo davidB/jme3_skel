@@ -1,5 +1,7 @@
 package jme3_ext;
 
+import javax.inject.Inject;
+
 import lombok.RequiredArgsConstructor;
 
 import com.jme3.input.RawInputListener;
@@ -16,7 +18,7 @@ import com.jme3.input.event.TouchEvent;
  *
  * @author David Bernard
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor=@__(@Inject))
 class RawInputListener4InputMapper implements RawInputListener {
 	final public InputMapper inputMapper;
 

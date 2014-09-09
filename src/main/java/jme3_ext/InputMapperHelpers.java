@@ -1,9 +1,12 @@
 package jme3_ext;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.stream.Collectors;
 
+import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 
 import com.jme3.input.JoystickAxis;
 import com.jme3.input.JoystickButton;
@@ -84,6 +87,13 @@ public class InputMapperHelpers {
 	}
 
 	/**
+	 * Convert KeyInputEvent into true when isPressed() else false.
+	 */
+	static public boolean isPressed(KeyInputEvent evt) {
+		return evt.isPressed();
+	}
+
+	/**
 	 * Convert KeyInputEvent into 1.0f when isPressed() else 0.0f.
 	 */
 	static public float isPressedAsOne(KeyInputEvent evt) {
@@ -97,6 +107,13 @@ public class InputMapperHelpers {
 		return evt.isPressed() ? -1.0f : 0.0f;
 	}
 
+	/**
+	 * Convert KeyInputEvent into -1.0f when isPressed(), -0.5f when isRepeating, else 0.0f.
+	 */
+	static public float isPressedNegOneAndHalf(KeyInputEvent evt) {
+		return evt.isPressed() ? -1.0f : evt.isRepeating()? -0.5f : 0.0f;
+	}
+
 	static public Collection<InputEvent> findTemplatesOf(InputMapper inputMapper, Observer<?> dest) {
 		return inputMapper.mappings.entrySet().stream()
 			.filter((v) -> dest.equals(v.getValue().dest))
@@ -105,7 +122,21 @@ public class InputMapperHelpers {
 			;
 	}
 
-	static public void mapKey(InputMapper m, int keyCode, boolean asOne, Observer<Float> dest) {
+	static public void mapKey(InputMapper m, int keyCode, Observer<Float> dest, boolean asOne) {
 		m.map(tmplKeyInputEvent(keyCode), asOne ? InputMapperHelpers::isPressedAsOne : InputMapperHelpers::isPressedAsNegOne, dest);
 	}
+
+	static public void mapKey(InputMapper m, int keyCode, Observer<Boolean> dest) {
+		m.map(tmplKeyInputEvent(keyCode), InputMapperHelpers::isPressed, dest);
+	}
+
+	static public <T> Subscription latest(Observable<T> src, Deque<T> latest, int capacity) {
+		return src.subscribe(v -> {
+			if (latest.size() == capacity) {
+				latest.removeLast();
+			}
+			latest.addFirst(v);
+		});
+	};
+
 }

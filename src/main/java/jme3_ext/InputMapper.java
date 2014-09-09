@@ -6,8 +6,11 @@ import java.util.function.Function;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import rx.Observable;
 import rx.Observer;
+import rx.subjects.PublishSubject;
 
+import com.jme3.input.RawInputListener;
 import com.jme3.input.event.InputEvent;
 
 /**
@@ -35,6 +38,7 @@ public final class InputMapper {
 
 		// the function is place as member of Entry to simplify type notation and checking
 		// harder in other places due to collection of mixed Entry for several types of InputEvent and R
+		@SuppressWarnings("unchecked")
 		public void apply(InputEvent e) {
 			dest.onNext(extract.apply((E)e));
 		}
@@ -53,6 +57,18 @@ public final class InputMapper {
 	 * Used to compare two InputEvent (the template and the incoming)
 	 */
 	public final Function<InputEvent, Integer> inputEventHasher;
+
+	private final PublishSubject<InputEvent> last0 = PublishSubject.create();
+	/**
+	 * Stream the last InputEvent send via onEvent (ignore mappings' content).
+	 */
+	public final Observable<InputEvent> last = last0;
+
+	/**
+	 * A RawInputListener preconnected to this InputMapper.
+	 * If you register this rawInputListener to a jme's InputManager, then event will be forwarded to onEvent(...).
+	 */
+	public final RawInputListener rawInputListener = new RawInputListener4InputMapper(this);
 
 	public InputMapper() {
 		this(InputMapperHelpers::defaultInputEventHash);
@@ -73,6 +89,8 @@ public final class InputMapper {
 	}
 
 	public <E extends InputEvent> void onEvent(E evt) {
+		System.err.println(evt);
+		last0.onNext(evt);
 		int h = inputEventHasher.apply(evt);
 		InputMapper.Mapping<?, ?> route = mappings.get(h);
 		if (route != null) route.apply(evt);
