@@ -35,6 +35,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javax.inject.Inject;
 
 import jme3_ext.AppSettingsLoader;
+import jme3_ext.AudioManager;
+import jme3_ext.Command;
 import jme3_ext.InputMapper;
 import jme3_ext.InputMapperHelpers;
 import jme3_ext.InputTextureFinder;
@@ -49,7 +51,7 @@ public class HudSettings implements Initializable {
 	final AppSettingsLoader loader;
 	final AudioManager audio;
 	final InputMapper inputMapper;
-	final Controls controls;
+	final Commands commands;
 	final InputTextureFinder inputTextureFinders;
 
 	private ResourceBundle resources;
@@ -99,7 +101,7 @@ public class HudSettings implements Initializable {
 	public Button audioMusicTest;
 
 	@FXML
-	public TableView<Control<?>> controlsMapping;
+	public TableView<Command<?>> controlsMapping;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -277,19 +279,21 @@ public class HudSettings implements Initializable {
     }
 
     void loadControls() {
-    	controlsMapping.setItems(FXCollections.observableArrayList(controls.all));
-    	TableColumn<Control<?>, String> labels = (TableColumn<Control<?>, String>) controlsMapping.getColumns().get(0);
+    	controlsMapping.setItems(FXCollections.observableArrayList(commands.all));
+    	@SuppressWarnings("unchecked")
+		TableColumn<Command<?>, String> labels = (TableColumn<Command<?>, String>) controlsMapping.getColumns().get(0);
     	labels.setCellValueFactory((p) -> new SimpleStringProperty(resources.getString(p.getValue().label)));
 //    	labels.setCellValueFactory(new PropertyValueFactory<Control<?>, String>("label")); //TODO i18n
 
-    	TableColumn<Control<?>, Collection<InputEvent>> inputs = (TableColumn<Control<?>, Collection<InputEvent>>) controlsMapping.getColumns().get(1);
+    	@SuppressWarnings("unchecked")
+    	TableColumn<Command<?>, Collection<InputEvent>> inputs = (TableColumn<Command<?>, Collection<InputEvent>>) controlsMapping.getColumns().get(1);
     	//inputs.setCellValueFactory((p) -> FXCollections.observableList(InputMapperHelpers.findTemplatesOf(inputMapper, p.getValue().value)));
     	inputs.setCellValueFactory((p) -> new SimpleObjectProperty<>(InputMapperHelpers.findTemplatesOf(inputMapper, p.getValue().value)));
-    	inputs.setCellFactory(new Callback<TableColumn<Control<?>,Collection<InputEvent>>, TableCell<Control<?>,Collection<InputEvent>>>() {
+    	inputs.setCellFactory(new Callback<TableColumn<Command<?>,Collection<InputEvent>>, TableCell<Command<?>,Collection<InputEvent>>>() {
 
 			@Override
-			public TableCell<Control<?>, Collection<InputEvent>> call(TableColumn<Control<?>, Collection<InputEvent>> param) {
-				return new TableCell<Control<?>, Collection<InputEvent>>(){
+			public TableCell<Command<?>, Collection<InputEvent>> call(TableColumn<Command<?>, Collection<InputEvent>> param) {
+				return new TableCell<Command<?>, Collection<InputEvent>>(){
 					HBox container;
 
 					{
@@ -298,6 +302,12 @@ public class HudSettings implements Initializable {
 						setGraphic(container);
 					}
 
+					protected ImageView newImageView(URL v) {
+						ImageView imageView = new ImageView(v.toExternalForm());
+						imageView.setFitWidth(64);
+						imageView.setPreserveRatio(true);
+						return imageView;
+					}
 					@Override
 					protected void updateItem(java.util.Collection<InputEvent> item, boolean empty) {
 						container.getChildren().clear();
@@ -305,7 +315,7 @@ public class HudSettings implements Initializable {
 							item.stream()
 							.map((v) -> inputTextureFinders.findUrl(v))
 							.forEach((v) -> {
-								Node n = (v == null) ? new Label("[?]") : new ImageView(v.toExternalForm());
+								Node n = (v == null) ? new Label("[?]") : newImageView(v);
 								container.getChildren().add(n);
 							})
 							;
@@ -314,7 +324,7 @@ public class HudSettings implements Initializable {
 				};
 			}
 		});
-    	
+
         controlsMapping.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 /*
