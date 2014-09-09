@@ -145,21 +145,36 @@ class MainModule {
 
 	@Provides
 	@Singleton
-	public InputMapper inputMapper(Controls controls) {
-		//TODO save / restore mapper
+	public InputMapper inputMapper(Commands controls) {
+		//TODO save / restore mapper, until then harcoded mapping
 		InputMapper m = new InputMapper();
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_ESCAPE, controls.exit.value);
 		// arrow
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_UP, true, controls.moveZ.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_DOWN, false, controls.moveZ.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_RIGHT, true, controls.moveX.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_LEFT, false, controls.moveX.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_UP, controls.moveZ.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_DOWN, controls.moveZ.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_RIGHT, controls.moveX.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_LEFT, controls.moveX.value, false);
 		// WASD / ZQSD
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_A, true, controls.moveZ.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, false, controls.moveZ.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, true, controls.moveX.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, false, controls.moveX.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, true, controls.moveZ.value);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, false, controls.moveX.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_A, controls.moveZ.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, controls.moveX.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, controls.moveZ.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, controls.moveX.value, false);
+		// WASD / ZQSD
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, controls.moveX.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, controls.moveZ.value, true);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, controls.moveX.value, false);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_1, controls.action1.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_NUMPAD1, controls.action1.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_2, controls.action2.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_NUMPAD2, controls.action2.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_3, controls.action3.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_NUMPAD3, controls.action3.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_4, controls.action4.value);
+		InputMapperHelpers.mapKey(m, KeyInput.KEY_NUMPAD4, controls.action4.value);
 		return m;
 	}
 }

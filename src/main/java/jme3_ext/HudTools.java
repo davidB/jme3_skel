@@ -18,8 +18,8 @@ import com.jme3x.jfx.GuiManager;
 @Singleton
 @RequiredArgsConstructor(onConstructor=@__(@Inject))
 public class HudTools {
-	private final Provider<FXMLLoader> pFxmlLoader;
-	private final GuiManager guiManager;
+	public final Provider<FXMLLoader> pFxmlLoader;
+	public final GuiManager guiManager;
 
 	public <T> Hud<T> newHud(String fxmlPath, T controller) {
 		try {

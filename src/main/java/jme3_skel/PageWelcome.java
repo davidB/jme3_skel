@@ -4,9 +4,12 @@ package jme3_skel;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import rx.Subscription;
+import rx.subscriptions.Subscriptions;
 import jme3_ext.AppState0;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
+import jme3_ext.InputMapper;
 import jme3_ext.PageManager;
 import lombok.RequiredArgsConstructor;
 
@@ -20,9 +23,12 @@ import com.jme3x.jfx.FxPlatformExecutor;
 class PageWelcome extends AppState0 {
 	private final HudTools hudTools;
 	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
+	private final InputMapper inputMapper;
+	private final Commands commands;
 
 	private boolean prevCursorVisible;
 	private Hud<HudWelcome> hud;
+	private Subscription inputSub;
 
 	@Override
 	public void doInitialize() {
@@ -55,11 +61,22 @@ class PageWelcome extends AppState0 {
 				});
 			});
 		});
+
+		hudTools.guiManager.setEverListeningRawInputListener(inputMapper.rawInputListener);
+		inputSub = Subscriptions.from(
+			commands.exit.value.subscribe((v) -> {
+				if (!v) hud.controller.quit.fire();
+			})
+		);
 	}
 
 	@Override
 	protected void doDisable() {
 		hudTools.hide(hud);
 		app.getInputManager().setCursorVisible(prevCursorVisible);
+		if (inputSub != null){
+			inputSub.unsubscribe();
+			inputSub = null;
+		}
 	}
 }

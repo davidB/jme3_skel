@@ -3,13 +3,15 @@ package jme3_skel;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-
 import jme3_ext.AppState0;
+import jme3_ext.AudioManager;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
+import jme3_ext.InputMapper;
 import jme3_ext.PageManager;
 import lombok.RequiredArgsConstructor;
-
+import rx.Subscription;
+import rx.subscriptions.Subscriptions;
 
 import com.jme3.audio.AudioNode;
 import com.jme3x.jfx.FxPlatformExecutor;
@@ -20,8 +22,11 @@ public class PageSettings extends AppState0{
 	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
 	private final AudioManager audioMgr;
 	private final HudSettings hudSettings;
+	private final InputMapper inputMapper;
+	private final Commands commands;
 
-	boolean prevCursorVisible;
+	private Subscription inputSub;
+	private boolean prevCursorVisible;
 	private AudioNode audioMusicTest;
 	private AudioNode audioSoundTest;
 	private Hud<HudSettings> hud;
@@ -75,12 +80,24 @@ public class PageSettings extends AppState0{
 				});
 			});
 		});
+
+		hudTools.guiManager.setEverListeningRawInputListener(inputMapper.rawInputListener);
+		inputSub = Subscriptions.from(
+			commands.exit.value.subscribe((v) -> {
+				if (!v) hud.controller.back.fire();
+			})
+		);
 	}
 
 	@Override
 	protected void doDisable() {
 		hudTools.hide(hud);
 		app.getInputManager().setCursorVisible(prevCursorVisible);
+		if (inputSub != null){
+			inputSub.unsubscribe();
+			inputSub = null;
+		}
+
 		app.getRootNode().detachChild(audioSoundTest);
 		app.getRootNode().detachChild(audioMusicTest);
 		audioMgr.musics.remove(audioMusicTest);
