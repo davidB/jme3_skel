@@ -1,4 +1,4 @@
-package jme3_skel;
+package jme3_ext;
 
 import java.util.LinkedList;
 
