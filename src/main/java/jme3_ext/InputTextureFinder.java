@@ -1,6 +1,5 @@
 package jme3_ext;
 
-import java.awt.event.KeyEvent;
 import java.net.URL;
 
 import javax.inject.Inject;
@@ -149,10 +148,10 @@ public class InputTextureFinder {
 		String prefix = findJoystickPrefix(evt.getButton().getJoystick());
 		String variant = evt.getButton().getName();
 		switch(variant) {
-		case "Left Thumb": variant = "LT"; break;
-		case "Right Thumb": variant = "RT"; break;
-		case "Left Thumb 3": variant = "LB"; break;
-		case "Right Thumb 3": variant = "RB"; break;
+		case "Left Thumb 3": variant = "LT"; break;
+		case "Right Thumb 3": variant = "RT"; break;
+		case "Left Thumb": variant = "LB"; break;
+		case "Right Thumb": variant = "RB"; break;
 		case "Select": variant = "Start"; break;
 		case "Mode": variant = "Back"; break;
 		}
@@ -179,7 +178,7 @@ public class InputTextureFinder {
 
 	//TODO manage TouchEvent
 	//TODO send url of a default (unknown texture)
-	public URL findUrl(InputEvent evt) {
+	public String findPath(InputEvent evt) {
 		String path =
 			(evt instanceof JoyButtonEvent) ? find((JoyButtonEvent)evt)
 			: (evt instanceof JoyAxisEvent) ? find((JoyAxisEvent)evt)
@@ -188,6 +187,11 @@ public class InputTextureFinder {
 			: (evt instanceof MouseMotionEvent) ? find((MouseMotionEvent)evt)
 			: null
 			;
+		return path;
+	}
+
+	public URL findUrl(InputEvent evt) {
+		String path = findPath(evt);
 		return (path != null) ? Thread.currentThread().getContextClassLoader().getResource(path) : null;
 	}
 
