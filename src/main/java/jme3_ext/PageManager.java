@@ -3,8 +3,6 @@ package jme3_ext;
 
 import com.jme3.app.state.AppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.input.InputManager;
-import com.jme3.input.controls.ActionListener;
 
 public class PageManager {
 
