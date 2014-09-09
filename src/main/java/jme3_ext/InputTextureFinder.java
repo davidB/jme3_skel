@@ -27,7 +27,7 @@ public class InputTextureFinder {
 	 * @TODO provide alternative for numpad and regular number
 	 */
 	public String find(KeyInputEvent evt) {
-		String variant = "";
+		String variant = null;
 		switch(evt.getKeyCode()) {
 		case KeyInput.KEY_0: variant = "0"; break;
 		case KeyInput.KEY_1: variant = "1"; break;
@@ -106,17 +106,17 @@ public class InputTextureFinder {
 		case KeyInput.KEY_MULTIPLY: variant = "Asterisk"; break;
 		case KeyInput.KEY_NUMLOCK: variant = "Num_Lock"; break;
 		}
-		return String.format("%s/%s/Keyboard_%s_%s.png", base, folderKeyInputEvent, theme, variant);
+		return (variant != null)? String.format("%s/%s/Keyboard_%s_%s.png", base, folderKeyInputEvent, theme, variant) : null;
 	}
 
 	public String find(MouseButtonEvent evt) {
-		String variant = "";
+		String variant = null;
 		switch(evt.getButtonIndex()) {
 		case 0: variant = "Left"; break;
 		case 1: variant = "Middle"; break;
 		case 3: variant = "Right"; break;
 		}
-		return String.format("%s/%s/Keyboard_%s_Mouse_%s.png", base, folderKeyInputEvent, theme, variant);
+		return (variant != null)? String.format("%s/%s/Keyboard_%s_Mouse_%s.png", base, folderKeyInputEvent, theme, variant) : null;
 	}
 
 	public String find(MouseMotionEvent evt) {
@@ -187,7 +187,7 @@ public class InputTextureFinder {
 			: (evt instanceof MouseMotionEvent) ? find((MouseMotionEvent)evt)
 			: null
 			;
-		return path;
+		return (path != null) ? path : base + "/undef.png";
 	}
 
 	public URL findUrl(InputEvent evt) {
