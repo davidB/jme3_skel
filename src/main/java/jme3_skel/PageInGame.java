@@ -29,7 +29,9 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.BillboardControl;
+import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Sphere;
 import com.jme3x.jfx.FxPlatformExecutor;
@@ -46,7 +48,7 @@ public class PageInGame extends AppState0 {
 	private Hud<HudInGame> hud;
 
 	Subscription inputSub;
-	Node player;
+	final Node scene = new Node("scene");
 	int spawnEventCnt = 0;
 
 	@Override
@@ -56,18 +58,6 @@ public class PageInGame extends AppState0 {
 		//inputManager.addRawInputListener(inputListener);
 		//hudTools.guiManager.setEverListeningRawInputListener(inputListener);
 		//hud.getResponsibleGuiManager().getjmeFXContainer().getInputListener();
-		player = new Node();
-		Geometry g = new Geometry("Player", new Sphere(16, 16, 0.5f));
-		Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-		mat.setColor("Color", ColorRGBA.Red);
-		g.setMaterial(mat);
-		player.attachChild(g);
-
-		CameraNode camn = new CameraNode("follower", app.getCamera());
-		camn.setLocalTranslation(new Vector3f(0,2,6));
-		camn.lookAt(player.getWorldTranslation(), Vector3f.UNIT_Y);
-		player.attachChild(camn);
-
 	}
 
 	@Override
@@ -87,12 +77,12 @@ public class PageInGame extends AppState0 {
 					if (!v) pm.get().goTo(Pages.Welcome.ordinal());
 				})
 				);
-		spawnPlayer();
+		spawnScene();
 	}
 
 	@Override
 	protected void doDisable() {
-		unspawnPlayer();
+		unspawnScene();
 		hudTools.guiManager.setEverListeningRawInputListener(null);
 		hudTools.hide(hud);
 		if (inputSub != null){
@@ -125,18 +115,19 @@ public class PageInGame extends AppState0 {
 		});
 	}
 
-	void spawnPlayer() {
+	void spawnScene() {
 		app.enqueue(()-> {
-			app.getRootNode().attachChild(player);
+			scene.getChildren().clear();
+			scene.attachChild(makePlayer());
+			scene.attachChild(makeEnvironment());
+			app.getRootNode().attachChild(scene);
 			return true;
 		});
 	}
 
-	void unspawnPlayer() {
+	void unspawnScene() {
 		app.enqueue(()-> {
-			if (player != null) {
-				player.removeFromParent();
-			}
+			scene.removeFromParent();
 			return true;
 		});
 	}
@@ -173,12 +164,43 @@ public class PageInGame extends AppState0 {
 		});
 	}
 
-	protected void addInfo(String info) {
-		FxPlatformExecutor.runOnFxApplication(() -> {
-			// autoscroll to bottom
-			hudController.consoleLog.setScrollTop(Double.MIN_VALUE);
-			hudController.consoleLog.appendText("\n"+info);
-			System.out.println(info);
-		});
+	Spatial makePlayer() {
+		Node root = new Node("player");
+		Geometry g = new Geometry("Player", new Sphere(16, 16, 0.5f));
+		Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Red);
+		g.setMaterial(mat);
+		root.attachChild(g);
+
+		CameraNode camn = new CameraNode("follower", app.getCamera());
+		camn.setLocalTranslation(new Vector3f(0,2,6));
+		camn.lookAt(root.getWorldTranslation(), Vector3f.UNIT_Y);
+		root.attachChild(camn);
+		return root;
 	}
+
+	Spatial makeEnvironment() {
+		Node root = new Node("environment");
+		root.attachChild(makeGrid(Vector3f.ZERO, 30f, ColorRGBA.Green));
+		return root;
+	}
+
+	Spatial makeGrid(Vector3f pos, float size, ColorRGBA color){
+		int nb = (int) Math.ceil(size / 0.2);
+		Geometry g = new Geometry("wireframe grid", new Grid(nb, nb, 0.2f) );
+		Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.getAdditionalRenderState().setWireframe(true);
+		mat.setColor("Color", color);
+		g.setMaterial(mat);
+		g.center().move(pos);
+		return g;
+	}
+//	protected void addInfo(String info) {
+//		FxPlatformExecutor.runOnFxApplication(() -> {
+//			// autoscroll to bottom
+//			hudController.consoleLog.setScrollTop(Double.MIN_VALUE);
+//			hudController.consoleLog.appendText("\n"+info);
+//			System.out.println(info);
+//		});
+//	}
 }
