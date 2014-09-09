@@ -12,6 +12,7 @@ import rx.subjects.PublishSubject;
 
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.InputEvent;
+import com.jme3.input.event.JoyAxisEvent;
 
 /**
  * InputMapper allow to store mapping rule between an InputEvent (template) and an Observer.
@@ -70,6 +71,11 @@ public final class InputMapper {
 	 */
 	public final RawInputListener rawInputListener = new RawInputListener4InputMapper(this);
 
+	/**
+	 * Soft deadzone, used to ignore event (JoyAxisEvent.getValue() > -deadzone && JoyAxisEvent.getValue() < deadzone)
+	 */
+	public float deadzone = 0.17f;
+
 	public InputMapper() {
 		this(InputMapperHelpers::defaultInputEventHash);
 	}
@@ -89,12 +95,19 @@ public final class InputMapper {
 	}
 
 	public <E extends InputEvent> void onEvent(E evt) {
-		System.err.println(evt);
 		last0.onNext(evt);
 		int h = inputEventHasher.apply(evt);
 		InputMapper.Mapping<?, ?> route = mappings.get(h);
 		if (route != null) route.apply(evt);
 	}
 
+	public void onEvent(JoyAxisEvent evt) {
+		float v = evt.getValue();
+		if (v > -deadzone && v < deadzone) return;
+		last0.onNext(evt);
+		int h = inputEventHasher.apply(evt);
+		InputMapper.Mapping<?, ?> route = mappings.get(h);
+		if (route != null) route.apply(evt);
+	}
 }
 
