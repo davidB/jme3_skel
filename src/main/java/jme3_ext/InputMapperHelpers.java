@@ -139,4 +139,17 @@ public class InputMapperHelpers {
 		});
 	};
 
+	/** for debug, print, logging,... */
+	static public String toString(InputEvent evt, boolean timePrefix) {
+		if (evt == null) return "null";
+		String v = timePrefix ? evt.getTime() + " " : "";
+		if (evt instanceof JoyAxisEvent) {
+			JoyAxisEvent e = (JoyAxisEvent)evt;
+			return v + String.format("JoyAxisEvent(joystickIndex : %s , axis: %s / %s, value : %s )", e.getJoyIndex(), e.getAxis().getName(), e.getAxisIndex(), e.getValue());
+		} else if (evt instanceof JoyButtonEvent) {
+			JoyButtonEvent e = (JoyButtonEvent)evt;
+			return v + String.format("JoyButtonEvent(joystickIndex : %s , btn: %s / %s, value : %S)", e.getJoyIndex(), e.getButton().getName(), e.getButtonIndex(), e.isPressed());
+		}
+		return v + evt.toString();
+	}
 }

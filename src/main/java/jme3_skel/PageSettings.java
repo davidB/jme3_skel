@@ -40,6 +40,7 @@ public class PageSettings extends AppState0{
 	protected void doEnable() {
 		prevCursorVisible = app.getInputManager().isCursorVisible();
 		app.getInputManager().setCursorVisible(true);
+		app.getInputManager().addRawInputListener(inputMapper.rawInputListener);
 		hudTools.show(hud);
 
 		audioMusicTest = new AudioNode(app.getAssetManager(), "Sounds/BlackVortex.ogg", true);
@@ -81,7 +82,6 @@ public class PageSettings extends AppState0{
 			});
 		});
 
-		hudTools.guiManager.setEverListeningRawInputListener(inputMapper.rawInputListener);
 		inputSub = Subscriptions.from(
 			commands.exit.value.subscribe((v) -> {
 				if (!v) hud.controller.back.fire();
@@ -93,6 +93,7 @@ public class PageSettings extends AppState0{
 	protected void doDisable() {
 		hudTools.hide(hud);
 		app.getInputManager().setCursorVisible(prevCursorVisible);
+		app.getInputManager().removeRawInputListener(inputMapper.rawInputListener);
 		if (inputSub != null){
 			inputSub.unsubscribe();
 			inputSub = null;

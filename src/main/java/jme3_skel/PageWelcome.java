@@ -38,6 +38,7 @@ class PageWelcome extends AppState0 {
 	protected void doEnable() {
 		prevCursorVisible = app.getInputManager().isCursorVisible();
 		app.getInputManager().setCursorVisible(true);
+		app.getInputManager().addRawInputListener(inputMapper.rawInputListener);
 		hudTools.show(hud);
 
 		FxPlatformExecutor.runOnFxApplication(() -> {
@@ -62,7 +63,6 @@ class PageWelcome extends AppState0 {
 			});
 		});
 
-		hudTools.guiManager.setEverListeningRawInputListener(inputMapper.rawInputListener);
 		inputSub = Subscriptions.from(
 			commands.exit.value.subscribe((v) -> {
 				if (!v) hud.controller.quit.fire();
@@ -74,6 +74,7 @@ class PageWelcome extends AppState0 {
 	protected void doDisable() {
 		hudTools.hide(hud);
 		app.getInputManager().setCursorVisible(prevCursorVisible);
+		app.getInputManager().removeRawInputListener(inputMapper.rawInputListener);
 		if (inputSub != null){
 			inputSub.unsubscribe();
 			inputSub = null;
