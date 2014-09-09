@@ -113,8 +113,8 @@ public class InputTextureFinder {
 		String variant = null;
 		switch(evt.getButtonIndex()) {
 		case 0: variant = "Left"; break;
-		case 1: variant = "Middle"; break;
-		case 3: variant = "Right"; break;
+		case 1: variant = "Right"; break;
+		case 2: variant = "Middle"; break;
 		}
 		return (variant != null)? String.format("%s/%s/Keyboard_%s_Mouse_%s.png", base, folderKeyInputEvent, theme, variant) : null;
 	}
@@ -134,8 +134,8 @@ public class InputTextureFinder {
 		case "x": variant = "Left_Stick"; break;
 		case "rx":
 		case "ry": variant = "Right_Stick"; break;
-		case "z":  variant = "LB"; break;
-		case "rz":  variant = "RB"; break;
+		case "z":  variant = "LT"; break;
+		case "rz":  variant = "RT"; break;
 		case "pov": variant = "Dpad"; break;
 		case "pov_x": variant = (evt.getValue() > 0.5) ? "Dpad_Right" : (evt.getValue() < -0.5) ? "Dpad_Left" : "Dpad"; break;
 		case "pov_y": variant = (evt.getValue() > 0.5) ? "Dpad_Up" : (evt.getValue() < -0.5) ? "Dpad_Down" : "Dpad"; break;
@@ -152,8 +152,8 @@ public class InputTextureFinder {
 		case "Right Thumb 3": variant = "RT"; break;
 		case "Left Thumb": variant = "LB"; break;
 		case "Right Thumb": variant = "RB"; break;
-		case "Select": variant = "Start"; break;
-		case "Mode": variant = "Back"; break;
+		case "Select": variant = "Back"; break;
+		case "Mode": variant = "Start"; break;
 		}
 		//TODO force capitalize(variant) ?
 		return String.format("%s/%s_%s.png", base, prefix, variant);
