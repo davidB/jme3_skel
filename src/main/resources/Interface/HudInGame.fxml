@@ -5,9 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="hudInGame" prefHeight="200.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="hudInGame" prefHeight="225.0" prefWidth="331.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TextArea id="consoleLog" fx:id="consoleLog" editable="false" focusTraversable="false" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" opacity="0.4" prefHeight="197.0" prefWidth="310.0" wrapText="true" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="30.0" />
+      <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="action1" focusTraversable="false" styleClass="action" text="%action1" />
             <Label fx:id="action2" focusTraversable="false" styleClass="action" text="%action2" />
@@ -15,10 +16,5 @@
             <Label fx:id="action4" focusTraversable="false" styleClass="action" text="%action4" />
          </children>
       </HBox>
-      <ScrollPane blendMode="OVERLAY" focusTraversable="false" layoutX="-6.0" prefHeight="179.0" prefWidth="252.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <TextArea id="consoleLog" fx:id="consoleLog" editable="false" focusTraversable="false" maxHeight="-Infinity" prefHeight="1000.0" wrapText="true" />
-         </content>
-      </ScrollPane>
    </children>
 </AnchorPane>
