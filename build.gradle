@@ -32,7 +32,7 @@ dependencies {
 	compile 'org.projectlombok:lombok:1.14.2'
 	compile "com.jme3:jme3-core:${v_jme}"
 	compile "org.slf4j:slf4j-api:${v_slf4j}"
-	compile "com.jme3x:jfx:1.20140902160010.61d027c"
+	compile "com.jme3x:jfx:1.20140911115518.aa2d674"
 	compile 'com.squareup.dagger:dagger:1.2.2'
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.netflix.rxjava:rxjava-core:0.19.2'

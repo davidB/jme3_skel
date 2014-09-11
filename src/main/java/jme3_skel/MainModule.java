@@ -98,6 +98,7 @@ class MainModule {
 		}
 		settings.setTitle(resources.getString("title"));
 		settings.setUseJoysticks(true);
+		settings.setGammaCorrection(true);
 		//settings.setResolution(640,480);
 		//	settings.setRenderer("JOGL");
 		//	settings.setRenderer(AppSettings.LWJGL_OPENGL3);
