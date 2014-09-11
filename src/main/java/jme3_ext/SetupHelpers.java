@@ -1,3 +1,4 @@
+/// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_ext;
 
 import java.io.File;
@@ -26,6 +27,7 @@ public class SetupHelpers {
 		});
 	}
 
+	// see http://hub.jmonkeyengine.org/wiki/doku.php/jme3:advanced:debugging
 	static public void setDebug(SimpleApplication app, boolean v) {
 		app.enqueue(() -> {
 			AppStateManager stateManager = app.getStateManager();

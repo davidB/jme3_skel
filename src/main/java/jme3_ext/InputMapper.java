@@ -1,3 +1,4 @@
+/// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_ext;
 
 import java.util.Map;
