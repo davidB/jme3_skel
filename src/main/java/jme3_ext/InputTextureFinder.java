@@ -127,8 +127,8 @@ public class InputTextureFinder {
 	//TODO use value of the event to provide more info (eg: Dpad_Left, mixing with Directional Arrow)
 	public String find(JoyAxisEvent evt) {
 		String prefix = findJoystickPrefix(evt.getAxis().getJoystick());
-		String variant = evt.getAxis().getName();
-		switch(variant) {
+		String variant = null;
+		switch(evt.getAxis().getName()) {
 		case "Left Thumb 3": variant = "LB"; break;
 		case "Right Thumb 3": variant = "RB"; break;
 		case "y":
@@ -162,7 +162,7 @@ public class InputTextureFinder {
 
 	public String findJoystickPrefix(Joystick joystick) {
 		String kindName = joystick.getName().toLowerCase();
-		String b = "Xbox 360/360"; // xbox is used as generic gamepad until there are assets for others.
+		String b = "Generic"; // xbox is used as generic gamepad until there are assets for others.
 		if ((kindName.contains("xbox") || kindName.contains("x-box")) && kindName.contains("360")) {
 			b = "Xbox 360/360";
 		} else if ((kindName.contains("xbox") || kindName.contains("x-box")) && kindName.contains("one")) {
@@ -179,7 +179,7 @@ public class InputTextureFinder {
 
 	//TODO manage TouchEvent
 	//TODO send url of a default (unknown texture)
-	public String findPath(InputEvent evt) {
+	private String findPath0(InputEvent evt) {
 		String path =
 			(evt instanceof JoyButtonEvent) ? find((JoyButtonEvent)evt)
 			: (evt instanceof JoyAxisEvent) ? find((JoyAxisEvent)evt)
@@ -188,7 +188,13 @@ public class InputTextureFinder {
 			: (evt instanceof MouseMotionEvent) ? find((MouseMotionEvent)evt)
 			: null
 			;
-		return (path != null) ? path : base + "/undef.png";
+		return path;
+	}
+
+	public String findPath(InputEvent evt) {
+		String path = findPath0(evt);
+		URL url = (path != null) ? Thread.currentThread().getContextClassLoader().getResource(path) : null;
+		return (url == null) ? base + "/undef.png" : path;
 	}
 
 	public URL findUrl(InputEvent evt) {
