@@ -1,11 +1,15 @@
 This project is my project skeleton for jmonkeyengine 3 (jme3).
-I use it to experiment and to store common game behavior (not part of a lib).
+
+Use it :
+* to experiment
+* to store common game behavior (not part of a lib).
+* as bootstarp for project, prototype, jam
 
 [![demo 20140902](http://img.youtube.com/vi/TGXrvvhBb_c/0.jpg)](http://www.youtube.com/watch?v=TGXrvvhBb_c)
 
 Project show, how I integrate:
 
-* jmonkeyengine
+* jmonkeyengine (3.1.0 snapshot)
 * gradle as build tool
 * java8
 * javafx (via jme3-jfx) for gui 
@@ -17,20 +21,20 @@ Project show, how I integrate:
 ## GUI
 
 I first experiment with lemur (see the lemur branch) + integration with MigLayout and create a welcome + settings pages.
-But I switch to jdk8 and give a try to javafx. JavaFX is less integrated into jme but provide reusable knowledge (out of jme), more doc, tuto,... and tools like SceneBuilder 2.0 to help you design GUI.
+But I switch to jdk8 and give a try to javafx. JavaFX is less integrated into jme but provide reusable knowledge (out of jme), more doc, tuto, css... and tools like SceneBuilder 2.0 to help you design GUI.
 
 The main downside of javaFX+jME, the need to push "action" in javaFX's Thread or in jME's Thread.
 
 The jme3_skel project provide the following pages :
 
 * welcome page
-* a fake game page (TODO)
+* a fake game page (display action + every inputs)
 * a scores page (TODO)
 * a level selection page (TODO)
 * options / settings page
   * video (resolution, vsync, anti-aliasing, fps, stats)
   * audio (master, music, sound)
-  * control (TODO)
+  * control (TODO: edition)
 
 Each page is an AppState + FXML (gui)
 
@@ -54,3 +58,10 @@ gradle run
 ## IDE
 
 I use eclipse 4.4 as main IDE, and netbeans 8 + jme's SDK build to edit asset.
+
+# To Do
+
+* add  doc : "howto", "why "
+* implement control 's table load+edit+save
+* missing pages
+* packaging via getdown (manuall + automatic)
