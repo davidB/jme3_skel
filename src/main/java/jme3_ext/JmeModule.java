@@ -49,7 +49,7 @@ public class JmeModule{
 		try {
 			return app.enqueue(() -> {
 				//guiManager modify app.guiNode so it should run in JME Thread
-				GuiManager guiManager = new GuiManager(app.getGuiNode(), app.getAssetManager(), app, false, c);
+				GuiManager guiManager = new GuiManager(app.getGuiNode(), app.getAssetManager(), app, true, c);
 				app.getInputManager().addRawInputListener(guiManager.getInputRedirector());
 				return guiManager;
 			}).get();
