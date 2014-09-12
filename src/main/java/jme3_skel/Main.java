@@ -28,6 +28,9 @@ public class Main {
 	}
 
 	public static void main(final String[] args) {
+		//-Djava.util.logging.config.file=logging.properties
+		SetupHelpers.installSLF4JBridge();
+
 		assert Main.enabled();
 		if (!Main.assertionsEnabled) {
 			throw new RuntimeException("Assertions must be enabled (vm args -ea");

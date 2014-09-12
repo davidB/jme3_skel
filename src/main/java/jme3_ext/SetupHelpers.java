@@ -5,6 +5,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.FlyCamAppState;
@@ -29,6 +34,9 @@ public class SetupHelpers {
 
 	// see http://hub.jmonkeyengine.org/wiki/doku.php/jme3:advanced:debugging
 	static public void setDebug(SimpleApplication app, boolean v) {
+		if (v) {
+			testJul();
+		}
 		app.enqueue(() -> {
 			AppStateManager stateManager = app.getStateManager();
 			//stateManager.attach(new StatsAppState());
@@ -99,5 +107,46 @@ public class SetupHelpers {
 				out.println( "   " + axis );
 			}
 		}
+	}
+
+	/**
+	 * Redirect java.util.logging to slf4j :
+	 * * remove registered j.u.l.Handler
+	 * * add a SLF4JBridgeHandler instance to jul's root logger.
+	 */
+	public static void installSLF4JBridge() {
+		Logger root = LogManager.getLogManager().getLogger("");
+		for(Handler h : root.getHandlers()){
+			root.removeHandler(h);
+		}
+		SLF4JBridgeHandler.install();
+	}
+
+	public static void uninstallSLF4JBridge() {
+		SLF4JBridgeHandler.uninstall();
+	}
+
+//		@Override
+//		public void publish(LogRecord record) {
+//			// following code will never capture event if FINER record are filtered (eg by ch.qos.logback.classic.jul.LevelChangePropagator)
+//			if (record.getThrown() != null && Level.FINER.equals(record.getLevel()) /*&& "THROW".equals(record.getMessage()) */) {
+//				record.setLevel(Level.WARNING);
+//			}
+//			super.publish(record);
+//		};
+
+	public static void testJul() {
+		testJul(Logger.getLogger(""));
+	}
+
+	public static void testJul(Logger l) {
+		l.config("jul.logger test : config");
+		l.severe("jul.logger test : severe");
+		l.warning("jul.logger test : warning");
+		l.info("jul.logger test : info");
+		l.fine("jul.logger test : fine");
+		l.finer("jul.logger test : finer");
+		l.finest("jul.logger test : finest");
+		l.throwing("sourceClass", "sourceMethod", new Exception());
 	}
 }
