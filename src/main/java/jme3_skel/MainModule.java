@@ -157,18 +157,18 @@ class MainModule {
 		InputMapperHelpers.mapKey(m, KeyInput.KEY_RIGHT, controls.moveX.value, true);
 		InputMapperHelpers.mapKey(m, KeyInput.KEY_LEFT, controls.moveX.value, false);
 		// WASD / ZQSD
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_A, controls.moveZ.value, true);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, controls.moveX.value, false);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, controls.moveZ.value, true);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, controls.moveX.value, false);
-		// WASD / ZQSD
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_W, controls.moveX.value, false);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, controls.moveZ.value, true);
-		InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, controls.moveX.value, false);
+		if (InputMapperHelpers.isKeyboardAzerty()) {
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_Z, controls.moveZ.value, true);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_Q, controls.moveX.value, false);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
+		} else {
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_W, controls.moveZ.value, true);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_S, controls.moveZ.value, false);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_A, controls.moveX.value, false);
+			InputMapperHelpers.mapKey(m, KeyInput.KEY_D, controls.moveX.value, true);
+		}
+		// actions
 		InputMapperHelpers.mapKey(m, KeyInput.KEY_1, controls.action1.value);
 		InputMapperHelpers.mapKey(m, KeyInput.KEY_NUMPAD1, controls.action1.value);
 		InputMapperHelpers.mapKey(m, KeyInput.KEY_2, controls.action2.value);

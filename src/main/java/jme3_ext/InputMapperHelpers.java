@@ -1,8 +1,10 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_ext;
 
+import java.awt.im.InputContext;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import rx.Observable;
@@ -153,4 +155,9 @@ public class InputMapperHelpers {
 		}
 		return v + evt.toString();
 	}
+
+	static public boolean isKeyboardAzerty() {
+		return Locale.FRANCE.getCountry().equals(InputContext.getInstance().getLocale().getCountry());
+	}
+
 }
