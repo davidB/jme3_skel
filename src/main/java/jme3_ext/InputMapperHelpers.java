@@ -120,7 +120,7 @@ public class InputMapperHelpers {
 	static public Collection<InputEvent> findTemplatesOf(InputMapper inputMapper, Observer<?> dest) {
 		return inputMapper.mappings.entrySet().stream()
 			.filter((v) -> dest.equals(v.getValue().dest))
-			.map((v) -> v.getValue().template)
+			.map((v) -> (InputEvent)v.getValue().template)
 			.collect(Collectors.toList())
 			;
 	}
