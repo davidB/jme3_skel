@@ -1,3 +1,13 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "net.alchim31.gradle:gradle-getdown-plugin:0.2.0"
+  }
+}
+
+apply plugin: 'net.alchim31.getdown'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
@@ -15,6 +25,8 @@ targetCompatibility = '1.8'
 if (!hasProperty('mainClass')) {
 		ext.mainClass = 'sandbox.Main'
 }
+version = '0.1.0'
+group = 'net.alchim31.jme3x'
 
 repositories {
 	mavenLocal()
@@ -32,19 +44,19 @@ dependencies {
 	compile 'org.projectlombok:lombok:1.14.2'
 	compile "com.jme3:jme3-core:${v_jme}"
 	compile "org.slf4j:slf4j-api:${v_slf4j}"
-	compile "com.jme3x:jfx:1.20140911115518.aa2d674"
+	compile "com.jme3x:jfx:1.20140922150436.aa2d674"
 	compile 'com.squareup.dagger:dagger:1.2.2'
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.netflix.rxjava:rxjava-core:0.19.2'
 	runtime "com.jme3:jme3-lwjgl:${v_jme}"
 	runtime "com.jme3:jme3-desktop:${v_jme}"
-	runtime "com.jme3:jme3-testdata:${v_jme}"
 	runtime "com.jme3:jme3-jogg:${v_jme}"
 	//runtime "org.slf4j:slf4j-jdk14:${v_slf4j}"
-	runtime "org.slf4j:jul-to-slf4j:${v_slf4j}"
+	compile "org.slf4j:jul-to-slf4j:${v_slf4j}"
 	runtime 'ch.qos.logback:logback-classic:1.1.2'
     testCompile 'junit:junit:4.11'
     testCompile 'org.mockito:mockito-core:1.8.5'
+    getdown 'com.threerings:getdown:1.4-SNAPSHOT'
 }
 
 sourceSets {
@@ -61,12 +73,12 @@ task copyDeps(type: Copy) {
   into 'lib'
 }
 
-// -- Packaging --------------------------------------------------------
-apply plugin: 'application'
 
-mainClassName = ext.mainClass
-
-applicationDefaultJvmArgs = [
-    "-ea"
-    , "-Djava.util.logging.config.file=logging.properties"
-]
+import bundles.Platform
+getdown {
+	urlbase = "http://dwayneb.free.fr/download/jme3_skel"
+	mainClassName = 'jme3_skel.Main'
+	jvmArgs = ["-ea"]
+	platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
+	tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
+}
