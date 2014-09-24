@@ -50,7 +50,7 @@ public class PageSettings extends AppState0{
 		audioMgr.musics.add(audioMusicTest);
 		app.getRootNode().attachChild(audioMusicTest);
 
-		audioSoundTest = new AudioNode(app.getAssetManager(), "Sound/Effects/Gun.wav", false); // buffered
+		audioSoundTest = new AudioNode(app.getAssetManager(), "Sounds/Gun.wav", false); // buffered
 		audioSoundTest.setLooping(false);
 		audioMusicTest.setPositional(false);
 		app.getRootNode().attachChild(audioSoundTest);
