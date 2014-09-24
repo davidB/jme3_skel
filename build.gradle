@@ -76,7 +76,7 @@ task copyDeps(type: Copy) {
 
 import bundles.Platform
 getdown {
-	urlbase = "http://dwayneb.free.fr/download/jme3_skel"
+	urlbase = "http://alchim31.net/download/jme3_skel"
 	mainClassName = 'jme3_skel.Main'
 	jvmArgs = ["-ea"]
 	platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
