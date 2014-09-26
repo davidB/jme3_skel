@@ -99,7 +99,7 @@ class MainModule {
 		}
 		settings.setTitle(resources.getString("title"));
 		settings.setUseJoysticks(true);
-		settings.setGammaCorrection(true);
+		//settings.setGammaCorrection(true); //TODO jme 3.1.0
 		//settings.setResolution(640,480);
 		//	settings.setRenderer("JOGL");
 		//	settings.setRenderer(AppSettings.LWJGL_OPENGL3);

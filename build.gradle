@@ -1,10 +1,11 @@
 buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath "net.alchim31.gradle:gradle-getdown-plugin:0.2.0"
-  }
+	repositories {
+		jcenter()
+		mavenLocal()
+	}
+	dependencies {
+		classpath "net.alchim31.gradle:gradle-getdown-plugin:0.2.2"
+	}
 }
 
 apply plugin: 'net.alchim31.getdown'
@@ -29,48 +30,46 @@ version = '0.1.0'
 group = 'net.alchim31.jme3x'
 
 repositories {
-	mavenLocal()
 	mavenCentral()
-	maven { url "https://oss.sonatype.org/content/groups/public"}
-	// You may define additional repositories, or even remove "mavenCentral()".
-	// Read more about repositories here:
-	//   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
+	maven { url "http://updates.jmonkeyengine.org/maven/"}
+	mavenLocal()
 }
 
-def v_jme = '3.1.0-snapshot-github'
+def v_jme = '3.0.10' //'3.1.0-snapshot-github'
 def v_slf4j = '1.7.7'
 
 dependencies {
 	compile 'org.projectlombok:lombok:1.14.2'
 	compile "com.jme3:jme3-core:${v_jme}"
 	compile "org.slf4j:slf4j-api:${v_slf4j}"
-	compile "com.jme3x:jfx:1.20140922150436.aa2d674"
+	compile "com.jme3x:jfx:1.20140926122015.f15da76"
 	compile 'com.squareup.dagger:dagger:1.2.2'
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
-    compile 'com.netflix.rxjava:rxjava-core:0.19.2'
+	compile 'com.netflix.rxjava:rxjava-core:0.19.2'
 	runtime "com.jme3:jme3-lwjgl:${v_jme}"
 	runtime "com.jme3:jme3-desktop:${v_jme}"
 	runtime "com.jme3:jme3-jogg:${v_jme}"
+	runtime "com.jme3-lib:oggd:1.0.0" // <-- explicit until dependency of jm3-jogg will fixed
 	//runtime "org.slf4j:slf4j-jdk14:${v_slf4j}"
 	compile "org.slf4j:jul-to-slf4j:${v_slf4j}"
 	runtime 'ch.qos.logback:logback-classic:1.1.2'
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-core:1.8.5'
-    getdown 'com.threerings:getdown:1.4-SNAPSHOT'
+	testCompile 'junit:junit:4.11'
+	testCompile 'org.mockito:mockito-core:1.8.5'
+	getdown 'com.threerings:getdown:1.4-SNAPSHOT'
 }
 
 sourceSets {
-    main {
-        resources {
-            srcDirs = ["$projectDir/src/main/resources", "$projectDir/src/main/assets"]
-	    	exclude "**/*.blend*"
-        }
-    }
+	main {
+		resources {
+			srcDirs = ["$projectDir/src/main/resources", "$projectDir/src/main/assets"]
+			exclude "**/*.blend*"
+		}
+	}
 }
 
 task copyDeps(type: Copy) {
-  from configurations.runtime
-  into 'lib'
+	from configurations.runtime
+	into 'lib'
 }
 
 
@@ -79,6 +78,6 @@ getdown {
 	urlbase = "http://alchim31.net/download/jme3_skel"
 	mainClassName = 'jme3_skel.Main'
 	jvmArgs = ["-ea"]
-	platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
+	//platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
 	tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
 }
