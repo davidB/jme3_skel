@@ -61,14 +61,14 @@ dependencies {
 sourceSets {
 	main {
 		resources {
-			srcDirs = ["$projectDir/src/main/resources", "$projectDir/src/main/assets"]
+			srcDirs = ["$projectDir/src/main/resources", "$projectDir/src/main/assets", "$projectDir/assets"]
 			exclude "**/*.blend*"
 		}
 	}
 }
 
 task copyDeps(type: Copy) {
-	from configurations.runtime
+	from (configurations.runtime + configurations.testCompile)
 	into 'lib'
 }
 
