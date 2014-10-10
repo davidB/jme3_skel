@@ -43,13 +43,17 @@ dependencies {
 	compile 'org.projectlombok:lombok:1.14.2'
 	compile "com.jme3:jme3-core:${v_jme}"
 	compile "org.slf4j:slf4j-api:${v_slf4j}"
-	compile "com.jme3x:jfx:1.20140928141716.3a27fb5"
+	//compile "com.jme3x:jfx:1.20140928141716.3a27fb5"
+	compile "com.jme3x:jfx:1.+"
 	compile 'com.squareup.dagger:dagger:1.2.2'
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
 	compile 'com.netflix.rxjava:rxjava-core:0.19.2'
 	runtime "com.jme3:jme3-lwjgl:${v_jme}"
-	runtime "com.jme3:jme3-desktop:${v_jme}"
-	runtime("com.jme3:jme3-jogg:${v_jme}")
+	runtime("com.jme3:jme3-desktop:${v_jme}"){
+		exclude module: "jinput"
+	}
+	runtime 'net.java.jinput:jinput:2.0.6'
+	runtime "com.jme3:jme3-jogg:${v_jme}"
 	//runtime "org.slf4j:slf4j-jdk14:${v_slf4j}"
 	compile "org.slf4j:jul-to-slf4j:${v_slf4j}"
 	runtime 'ch.qos.logback:logback-classic:1.1.2'
