@@ -71,6 +71,7 @@ sourceSets {
 }
 
 task copyDeps(type: Copy) {
+	description 'copy runtime + testRuntime dependencies into lib/ dir to allow other tools (jme3-SDK, eclipse apt-processor) to use libs'
 	from (configurations.runtime + configurations.testCompile)
 	into 'lib'
 }
@@ -80,6 +81,7 @@ getdown {
 	urlbase = "http://alchim31.net/download/jme3_skel"
 	mainClassName = 'jme3_skel.Main'
 	jvmArgs = ["-ea"]
+	checklatest = false
 	//platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
 	//platforms = [Platform.LINUX_I586] //Platform.values()
 	tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
