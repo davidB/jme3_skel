@@ -4,7 +4,7 @@ buildscript {
 		mavenLocal()
 	}
 	dependencies {
-		classpath "net.alchim31.gradle:gradle-getdown-plugin:0.3.0"
+		classpath "net.alchim31.gradle:gradle-getdown-plugin:0.3.2"
 	}
 }
 //apply plugin: 'application'
@@ -86,3 +86,8 @@ getdown {
 	//platforms = [Platform.LINUX_I586] //Platform.values()
 	tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
 }
+//project.afterEvaluate {
+//	project.getdown.distSpec.eachFile {
+//		println "$it.name"
+//	}
+//}
