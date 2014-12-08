@@ -40,7 +40,7 @@ class MainModule {
 	@Provides
 	public AppSettingsLoader appSettingsLoader() {
 		return new AppSettingsLoader() {
-			final String prefKey = "sandbox.MyGame";
+			final String prefKey = this.getClass().getCanonicalName();
 
 			@Override
 			public AppSettings loadInto(AppSettings settings) throws Exception{
