@@ -26,14 +26,14 @@ targetCompatibility = '1.8'
 if (!hasProperty('mainClass')) {
 		ext.mainClass = 'sandbox.Main'
 }
-version = '0.1.0'
-group = 'net.alchim31.jme3x'
+version = '0.2.0'
+group = 'net.alchim31.jme3'
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 	maven { url "http://updates.jmonkeyengine.org/maven/"}
-	maven { url "http://dl.bintray.com/davidb/jme3stuff" }
-	mavenLocal()
+	maven { url "http://dl.bintray.com/jmonkeyengine/contrib" }
 }
 
 def v_jme = '3.0.10' //'3.1.0-snapshot-github'
@@ -48,6 +48,8 @@ dependencies {
 	compile 'com.squareup.dagger:dagger:1.2.2'
 	compile 'com.squareup.dagger:dagger-compiler:1.2.2'
 	compile 'com.netflix.rxjava:rxjava-core:0.19.2'
+	compile 'net.alchim31.jme3:jme3_ext:0.1.0'
+	runtime 'net.alchim31.jme3:jme3_ext:0.1.0:textures'
 	runtime "com.jme3:jme3-lwjgl:${v_jme}"
 	runtime("com.jme3:jme3-desktop:${v_jme}"){
 		exclude module: "jinput"
