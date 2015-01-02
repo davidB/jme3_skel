@@ -4,7 +4,7 @@ buildscript {
 		mavenLocal()
 	}
 	dependencies {
-		classpath "net.alchim31.gradle:gradle-getdown-plugin:0.3.2"
+		classpath "net.alchim31.gradle:gradle-getdown-plugin:0.4.0"
 	}
 }
 //apply plugin: 'application'
@@ -26,7 +26,7 @@ targetCompatibility = '1.8'
 if (!hasProperty('mainClass')) {
 		ext.mainClass = 'sandbox.Main'
 }
-version = '0.2.0'
+version = '0.2.1'
 group = 'net.alchim31.jme3'
 
 repositories {
