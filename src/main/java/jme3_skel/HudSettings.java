@@ -12,6 +12,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.inject.Inject;
+
+import com.jme3.app.SimpleApplication;
+import com.jme3.input.event.InputEvent;
+import com.jme3.system.AppSettings;
+
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -30,24 +38,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
-import javax.inject.Inject;
-
 import jme3_ext.AppSettingsLoader;
 import jme3_ext.AudioManager;
 import jme3_ext.Command;
 import jme3_ext.InputMapper;
 import jme3_ext.InputMapperHelpers;
 import jme3_ext.InputTextureFinder;
-import lombok.RequiredArgsConstructor;
 
-import com.jme3.app.SimpleApplication;
-import com.jme3.input.event.InputEvent;
-import com.jme3.system.AppSettings;
-
-@RequiredArgsConstructor(onConstructor=@__(@Inject))
 public class HudSettings implements Initializable {
 	final AppSettingsLoader loader;
 	final AudioManager audio;
@@ -103,6 +100,17 @@ public class HudSettings implements Initializable {
 
 	@FXML
 	public TableView<Command<?>> controlsMapping;
+
+	@Inject
+	public HudSettings(AppSettingsLoader loader, AudioManager audio, InputMapper inputMapper, Commands commands,
+			InputTextureFinder inputTextureFinders) {
+		super();
+		this.loader = loader;
+		this.audio = audio;
+		this.inputMapper = inputMapper;
+		this.commands = commands;
+		this.inputTextureFinders = inputTextureFinders;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

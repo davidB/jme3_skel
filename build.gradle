@@ -27,7 +27,6 @@ repositories {
 }
 
 dependencies {
-	provided 'org.projectlombok:lombok:1.14.2'
 	compile "com.jme3:jme3-core:${v_jme}"
 	compile "org.slf4j:slf4j-api:${v_slf4j}"
 	compile "com.jme3x:jfx:1.+"

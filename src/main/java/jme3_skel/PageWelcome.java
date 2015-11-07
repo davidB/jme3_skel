@@ -4,22 +4,20 @@ package jme3_skel;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import rx.Subscription;
-import rx.subscriptions.Subscriptions;
+import com.jme3x.jfx.FxPlatformExecutor;
+
 import jme3_ext.AppState0;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
 import jme3_ext.InputMapper;
 import jme3_ext.PageManager;
-import lombok.RequiredArgsConstructor;
-
-import com.jme3x.jfx.FxPlatformExecutor;
+import rx.Subscription;
+import rx.subscriptions.Subscriptions;
 
 /**
  *
  * @author David Bernard
  */
-@RequiredArgsConstructor(onConstructor=@__(@Inject))
 class PageWelcome extends AppState0 {
 	private final HudTools hudTools;
 	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
@@ -30,6 +28,14 @@ class PageWelcome extends AppState0 {
 	private Hud<HudWelcome> hud;
 	private Subscription inputSub;
 
+	@Inject
+	public PageWelcome(HudTools hudTools, Provider<PageManager> pm, InputMapper inputMapper, Commands commands) {
+		super();
+		this.hudTools = hudTools;
+		this.pm = pm;
+		this.inputMapper = inputMapper;
+		this.commands = commands;
+	}
 	@Override
 	public void doInitialize() {
 		hud = hudTools.newHud("Interface/HudWelcome.fxml", new HudWelcome());

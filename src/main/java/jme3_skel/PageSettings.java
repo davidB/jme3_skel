@@ -4,20 +4,18 @@ package jme3_skel;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import com.jme3.audio.AudioNode;
+import com.jme3x.jfx.FxPlatformExecutor;
+
 import jme3_ext.AppState0;
 import jme3_ext.AudioManager;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
 import jme3_ext.InputMapper;
 import jme3_ext.PageManager;
-import lombok.RequiredArgsConstructor;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
 
-import com.jme3.audio.AudioNode;
-import com.jme3x.jfx.FxPlatformExecutor;
-
-@RequiredArgsConstructor(onConstructor=@__(@Inject))
 public class PageSettings extends AppState0{
 	private final HudTools hudTools;
 	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
@@ -31,6 +29,18 @@ public class PageSettings extends AppState0{
 	private AudioNode audioMusicTest;
 	private AudioNode audioSoundTest;
 	private Hud<HudSettings> hud;
+
+	@Inject
+	public PageSettings(HudTools hudTools, Provider<PageManager> pm, AudioManager audioMgr, HudSettings hudSettings,
+			InputMapper inputMapper, Commands commands) {
+		super();
+		this.hudTools = hudTools;
+		this.pm = pm;
+		this.audioMgr = audioMgr;
+		this.hudSettings = hudSettings;
+		this.inputMapper = inputMapper;
+		this.commands = commands;
+	}
 
 	@Override
 	public void doInitialize() {

@@ -3,8 +3,6 @@ package jme3_skel;
 
 import java.io.IOException;
 
-import lombok.Data;
-
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Track;
@@ -12,11 +10,15 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.util.TempVars;
 
-@Data
 public class RemoveTrack implements Track {
 
 	/** delay before removeFromParent */
 	public final float at;
+
+	public RemoveTrack(float at) {
+		super();
+		this.at = at;
+	}
 
 	@Override
 	public void write(JmeExporter ex) throws IOException {

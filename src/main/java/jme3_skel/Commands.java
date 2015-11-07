@@ -1,14 +1,12 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_skel;
 
-import javax.inject.Singleton;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import jme3_ext.Command;
-import lombok.RequiredArgsConstructor;
 
 @Singleton
-@RequiredArgsConstructor(onConstructor=@__(@Inject))
 public class Commands {
 	public final Command<Boolean> exit = new Command<>("quit");
 	public final Command<Float> moveZ = new Command<>("moveZ");
@@ -21,4 +19,7 @@ public class Commands {
 	public final Command<Boolean> action4 = new Command<>("action4");
 
 	public final Command<?>[] all = {moveZ, moveX, rotateX, rotateY, action1, action2, action3, action4, exit};
+	
+	@Inject
+	public Commands(){}
 }

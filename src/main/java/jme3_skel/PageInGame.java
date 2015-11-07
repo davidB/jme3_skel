@@ -1,22 +1,8 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_skel;
 
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
-
-import jme3_ext.AppState0;
-import jme3_ext.Hud;
-import jme3_ext.HudTools;
-import jme3_ext.InputMapper;
-import jme3_ext.InputMapperHelpers;
-import jme3_ext.InputTextureFinder;
-import jme3_ext.PageManager;
-import lombok.RequiredArgsConstructor;
-import rx.Subscription;
-import rx.subscriptions.Subscriptions;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
@@ -41,7 +27,18 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Sphere;
 import com.jme3x.jfx.FxPlatformExecutor;
 
-@RequiredArgsConstructor(onConstructor=@__(@Inject))
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
+import jme3_ext.AppState0;
+import jme3_ext.Hud;
+import jme3_ext.HudTools;
+import jme3_ext.InputMapper;
+import jme3_ext.InputMapperHelpers;
+import jme3_ext.InputTextureFinder;
+import jme3_ext.PageManager;
+import rx.Subscription;
+import rx.subscriptions.Subscriptions;
+
 public class PageInGame extends AppState0 {
 	private final HudInGame hudController;
 	private final HudTools hudTools;
@@ -56,6 +53,18 @@ public class PageInGame extends AppState0 {
 	final Node scene = new Node("scene");
 	final Control4Translation c4t = new Control4Translation();
 	int spawnEventCnt = 0;
+
+	@Inject
+	public PageInGame(HudInGame hudController, HudTools hudTools, Commands controls, InputMapper inputMapper,
+			Provider<PageManager> pm, InputTextureFinder inputTextureFinders) {
+		super();
+		this.hudController = hudController;
+		this.hudTools = hudTools;
+		this.controls = controls;
+		this.inputMapper = inputMapper;
+		this.pm = pm;
+		this.inputTextureFinders = inputTextureFinders;
+	}
 
 	@Override
 	protected void doInitialize() {
