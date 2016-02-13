@@ -45,4 +45,9 @@ public class RemoveTrack implements Track {
 		return new RemoveTrack(at);
 	}
 
+	@Override
+	public float[] getKeyFrameTimes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

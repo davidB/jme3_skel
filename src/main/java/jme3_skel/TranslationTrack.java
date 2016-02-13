@@ -50,4 +50,9 @@ public class TranslationTrack implements Track {
 		return new TranslationTrack(translation, length);
 	}
 
+	@Override
+	public float[] getKeyFrameTimes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
