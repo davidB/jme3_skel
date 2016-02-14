@@ -31,7 +31,7 @@ public class InputMapperTest {
 
 		// 2. map InputEvents --to--> actions (setup InputMapper's mappings)
 		sut.mappings.clear();
-		sut.map(tmplKeyInputEvent(KeyInput.KEY_0), InputMapperHelpers::isPressedAsOne, observer);
+		sut.map(tmplKeyInputEvent(KeyInput.KEY_0), InputMapperHelpers.isPressedAsOne, observer);
 
 		//3. simulate events
 		sut.onEvent(new KeyInputEvent(KeyInput.KEY_0, '0', true, false));
@@ -51,7 +51,7 @@ public class InputMapperTest {
 
 		// 2. map InputEvents --to--> actions (setup InputMapper's mappings)
 		sut.mappings.clear();
-		sut.map(tmplKeyInputEvent(KeyInput.KEY_0), InputMapperHelpers::isPressedAsOne, actionf0);
+		sut.map(tmplKeyInputEvent(KeyInput.KEY_0), InputMapperHelpers.isPressedAsOne, actionf0);
 
 		// 3. map actions --to--> subscribe listener/observer
 		@SuppressWarnings("unchecked")

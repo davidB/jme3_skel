@@ -2,7 +2,6 @@
 package jme3_skel;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import com.jme3x.jfx.FxPlatformExecutor;
 
@@ -10,8 +9,8 @@ import jme3_ext.AppState0;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
 import jme3_ext.InputMapper;
-import jme3_ext.PageManager;
 import rx.Subscription;
+import rx.subjects.PublishSubject;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -20,7 +19,7 @@ import rx.subscriptions.Subscriptions;
  */
 class PageWelcome extends AppState0 {
 	private final HudTools hudTools;
-	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
+	private final PublishSubject<Pages> pm;
 	private final InputMapper inputMapper;
 	private final Commands commands;
 
@@ -29,7 +28,7 @@ class PageWelcome extends AppState0 {
 	private Subscription inputSub;
 
 	@Inject
-	public PageWelcome(HudTools hudTools, Provider<PageManager> pm, InputMapper inputMapper, Commands commands) {
+	public PageWelcome(HudTools hudTools, PublishSubject<Pages> pm, InputMapper inputMapper, Commands commands) {
 		super();
 		this.hudTools = hudTools;
 		this.pm = pm;
@@ -51,13 +50,13 @@ class PageWelcome extends AppState0 {
 			HudWelcome p = hud.controller;
 			p.play.onActionProperty().set((v) -> {
 				app.enqueue(()-> {
-					pm.get().goTo(Pages.InGame.ordinal());
+					pm.onNext(Pages.InGame);
 					return true;
 				});
 			});
 			p.settings.onActionProperty().set((v) -> {
 				app.enqueue(()-> {
-					pm.get().goTo(Pages.Settings.ordinal());
+					pm.onNext(Pages.Settings);
 					return true;
 				});
 			});

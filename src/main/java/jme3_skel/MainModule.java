@@ -16,9 +16,9 @@ import jme3_ext.InputMapper;
 import jme3_ext.InputMapperHelpers;
 import jme3_ext.JmeModule;
 import jme3_ext.PageManager;
+import rx.subjects.PublishSubject;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.state.AppState;
 import com.jme3.input.KeyInput;
 import com.jme3.system.AppSettings;
 import com.jme3x.jfx.FxPlatformExecutor;
@@ -27,14 +27,10 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(
-	injects = {
-		Main.class,
-	},
 	includes = {
 		JmeModule.class,
 	}
 )
-
 class MainModule {
 
 	@Provides
@@ -108,21 +104,19 @@ class MainModule {
 
 	@Singleton
 	@Provides
-	public PageManager pageManager(SimpleApplication app, PageWelcome pageWelcome, PageSettings pageSettings, PageInGame pageInGame) {
-		AppState[] pages = new AppState[Pages.values().length];
-		/*
-         pages[Page.About.ordinal()] = new PageAbout(screen);
-         pages[Page.InGame.ordinal()] = new PageInGame(screen);
-         pages[Page.LevelSelection.ordinal()] = new PageLevelSelection(screen);
-         pages[Page.Loading.ordinal()] = new PageLoading(screen);
-         pages[Page.Result.ordinal()] = new PageResult(screen);
-         pages[Page.Scores.ordinal()] = new PageScores(screen);
-         pages[Page.Settings.ordinal()] = new PageSettings(screen);
-		 */
-		pages[Pages.Welcome.ordinal()] = pageWelcome;
-		pages[Pages.InGame.ordinal()] = pageInGame;
-		pages[Pages.Settings.ordinal()] = pageSettings;
-		PageManager pageManager = new PageManager(app.getStateManager(), pages);
+	//@Named("pageRequests")
+	public PublishSubject<Pages> pageRequests() {
+		return PublishSubject.create();
+	}
+
+	@Singleton
+	@Provides
+	public PageManager<Pages> pageManager(SimpleApplication app, PublishSubject<Pages> pageRequests, PageWelcome pageWelcome, PageSettings pageSettings, PageInGame pageInGame) {
+		PageManager<Pages> pageManager = new PageManager<>(app.getStateManager());
+		pageManager.pages.put(Pages.Welcome, pageWelcome);
+		pageManager.pages.put(Pages.InGame, pageInGame);
+		pageManager.pages.put(Pages.Settings, pageSettings);
+		pageRequests.subscribe((p) -> pageManager.goTo(p));
 		return pageManager;
 	}
 

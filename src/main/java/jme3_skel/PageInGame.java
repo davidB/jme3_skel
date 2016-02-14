@@ -2,7 +2,6 @@
 package jme3_skel;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
@@ -35,8 +34,8 @@ import jme3_ext.HudTools;
 import jme3_ext.InputMapper;
 import jme3_ext.InputMapperHelpers;
 import jme3_ext.InputTextureFinder;
-import jme3_ext.PageManager;
 import rx.Subscription;
+import rx.subjects.PublishSubject;
 import rx.subscriptions.Subscriptions;
 
 public class PageInGame extends AppState0 {
@@ -44,7 +43,7 @@ public class PageInGame extends AppState0 {
 	private final HudTools hudTools;
 	private final Commands controls;
 	private final InputMapper inputMapper;
-	private final Provider<PageManager> pm;
+	private final PublishSubject<Pages> pm;
 	private final InputTextureFinder inputTextureFinders;
 
 	private Hud<HudInGame> hud;
@@ -56,7 +55,7 @@ public class PageInGame extends AppState0 {
 
 	@Inject
 	public PageInGame(HudInGame hudController, HudTools hudTools, Commands controls, InputMapper inputMapper,
-			Provider<PageManager> pm, InputTextureFinder inputTextureFinders) {
+			PublishSubject<Pages> pm, InputTextureFinder inputTextureFinders) {
 		super();
 		this.hudController = hudController;
 		this.hudTools = hudTools;
@@ -78,7 +77,7 @@ public class PageInGame extends AppState0 {
 
 		inputSub = Subscriptions.from(
 			controls.exit.value.subscribe((v) -> {
-				if (!v) pm.get().goTo(Pages.Welcome.ordinal());
+				if (!v) pm.onNext(Pages.Welcome);
 			})
 			, inputMapper.last.subscribe((v) -> spawnEvent(v))
 			, controls.action1.value.subscribe((v) -> action1(v))

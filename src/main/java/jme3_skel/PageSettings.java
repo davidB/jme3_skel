@@ -2,7 +2,6 @@
 package jme3_skel;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import com.jme3.audio.AudioNode;
 import com.jme3x.jfx.FxPlatformExecutor;
@@ -12,13 +11,13 @@ import jme3_ext.AudioManager;
 import jme3_ext.Hud;
 import jme3_ext.HudTools;
 import jme3_ext.InputMapper;
-import jme3_ext.PageManager;
 import rx.Subscription;
+import rx.subjects.PublishSubject;
 import rx.subscriptions.Subscriptions;
 
 public class PageSettings extends AppState0{
 	private final HudTools hudTools;
-	private final Provider<PageManager> pm; // use Provider as Hack to break the dependency cycle PageManager -> Page -> PageManager
+	private final PublishSubject<Pages> pm;
 	private final AudioManager audioMgr;
 	private final HudSettings hudSettings;
 	private final InputMapper inputMapper;
@@ -31,7 +30,7 @@ public class PageSettings extends AppState0{
 	private Hud<HudSettings> hud;
 
 	@Inject
-	public PageSettings(HudTools hudTools, Provider<PageManager> pm, AudioManager audioMgr, HudSettings hudSettings,
+	public PageSettings(HudTools hudTools, PublishSubject<Pages> pm, AudioManager audioMgr, HudSettings hudSettings,
 			InputMapper inputMapper, Commands commands) {
 		super();
 		this.hudTools = hudTools;
@@ -87,7 +86,7 @@ public class PageSettings extends AppState0{
 
 			p.back.onActionProperty().set((e) -> {
 				app.enqueue(()-> {
-					pm.get().goTo(Pages.Welcome.ordinal());
+					pm.onNext(Pages.Welcome);
 					return true;
 				});
 			});
