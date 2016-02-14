@@ -1,25 +1,15 @@
-buildscript {
-    repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:1.12.+'
-        classpath 'net.alchim31.gradle:gradle-getdown-plugin:0.4.1'
-        classpath 'com.cinnober.gradle:semver-git:2.2.0'
-        classpath 'net.ltgt.gradle:gradle-apt-plugin:0.5'
-    }
+plugins {
+	id "nebula.provided-base" version "3.0.3"
+	id "net.ltgt.apt" version "0.5"
+	//id "net.alchim31.getdown" version "0.4.1"
+	id "java"
+	id "eclipse"
+	id "maven-publish"
+	id "application"
 }
 
-apply plugin: 'provided-base'
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'net.ltgt.apt'
-apply plugin: 'application'
-apply plugin: 'net.alchim31.getdown'
-
-ext.nextVersion = "patch"
-ext.snapshotSuffix = "<count>-g<sha>"
-apply plugin: 'com.cinnober.gradle.semver-git'
+version = "git describe --always --dirty".execute().text.trim()
+println("version : '${version}'")
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -39,8 +29,7 @@ dependencies {
     compile "org.slf4j:slf4j-api:${v_slf4j}"
     compile "com.jme3x:jfx:1.+"
     compile 'io.reactivex:rxjava:1.1.1'
-    compile 'com.github.davidb:jme3_ext:eef2463'
-    runtime 'com.github.davidb:jme3_ext:eef2463:textures'
+    compile 'com.github.davidb:jme3_ext:0e160a3:all'
     runtime "org.jmonkeyengine:jme3-lwjgl:${v_jme}"
     runtime("org.jmonkeyengine:jme3-desktop:${v_jme}"){
         exclude module: "jinput"
@@ -64,33 +53,19 @@ sourceSets {
 }
 
 //------------------------------------------------------------------------------
-
-task copyDeps {
-    description 'copy runtime + testRuntime dependencies into lib/ dir to allow other tools (jme3-SDK, eclipse apt-processor) to use libs'
-    copy {
-        from configurations.runtime
-        into 'lib/main'
-    }
-    copy {
-        from (configurations.testRuntime - configurations.runtime)
-        into 'lib/test'
-    }
-}
-
-//------------------------------------------------------------------------------
 mainClassName = 'jme3_skel.Main'
 applicationDefaultJvmArgs = ['-ea']
 
-import bundles.Platform
-getdown {
-    urlbase = "http://alchim31.net/download/jme3_skel"
-    checklatest = false
-    mainClassName = project.mainClassName
-    jvmArgs = project.applicationDefaultJvmArgs
-    //platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
-    //platforms = [Platform.LINUX_I586] //Platform.values()
-    tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
-}
+//import bundles.Platform
+//getdown {
+//    urlbase = "http://alchim31.net/download/jme3_skel"
+//    checklatest = false
+//    mainClassName = project.mainClassName
+//    jvmArgs = project.applicationDefaultJvmArgs
+//    //platforms = [Platform.LINUX_I586, Platform.LINUX_X64, Platform.WINDOWS_I586] //Platform.values()
+//    //platforms = [Platform.LINUX_I586] //Platform.values()
+//    tmplGetdownTxt = tmplGetdownTxt + "\nallow_offline = true"
+//}
 //project.afterEvaluate {
 //  project.getdown.distSpec.eachFile {
 //      println "$it.name"
