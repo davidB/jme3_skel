@@ -2,7 +2,6 @@
 package jme3_skel;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
@@ -12,17 +11,10 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3x.jfx.FxPlatformExecutor;
 import com.jme3x.jfx.GuiManager;
 
-import dagger.Component;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import jme3_ext.PageManager;
 import jme3_ext.SetupHelpers;
-
-@Singleton
-@Component(modules = MainModule.class)
-interface MainAppMaker {
-  MainApp make();
-}
 
 class MainApp {
 	//HACK to receive service without need to explicitly list them and to initialize them

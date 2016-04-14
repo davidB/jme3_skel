@@ -14,29 +14,25 @@ import javax.inject.Singleton;
 import jme3_ext.AppSettingsLoader;
 import jme3_ext.InputMapper;
 import jme3_ext.InputMapperHelpers;
-import jme3_ext.JmeModule;
 import jme3_ext.PageManager;
 import rx.subjects.PublishSubject;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.system.AppSettings;
 import com.jme3x.jfx.FxPlatformExecutor;
 
-import dagger.Module;
-import dagger.Provides;
-
-@Module(
-	includes = {
-		JmeModule.class,
+class MainModule extends AbstractModule {
+	@Override
+	protected void configure() {
 	}
-)
-class MainModule {
 
 	@Provides
 	public AppSettingsLoader appSettingsLoader() {
 		return new AppSettingsLoader() {
-			final String prefKey = this.getClass().getCanonicalName();
+			final String prefKey = "" + this.getClass().getCanonicalName();
 
 			@Override
 			public AppSettings loadInto(AppSettings settings) throws Exception{

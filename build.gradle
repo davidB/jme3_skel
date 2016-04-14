@@ -1,6 +1,5 @@
 plugins {
 	id "nebula.provided-base" version "3.0.3"
-	id "net.ltgt.apt" version "0.5"
 	//id "net.alchim31.getdown" version "0.4.1"
 	id "java"
 	id "eclipse"
@@ -26,14 +25,13 @@ repositories {
 }
 
 dependencies {
-    apt     'com.google.dagger:dagger-compiler:2.0.2'
-    compile 'com.google.dagger:dagger:2.0.2'
+    compile 'com.google.inject:guice:4.0'
 
     compile "org.jmonkeyengine:jme3-core:${v_jme}"
     compile "org.slf4j:slf4j-api:${v_slf4j}"
     compile "com.jme3x:jfx:1.+"
     compile 'io.reactivex:rxjava:1.1.1'
-    compile 'com.github.davidb:jme3_ext:0.4.0:all'
+    compile 'com.github.davidb:jme3_ext:0.5.0:all'
     runtime "org.jmonkeyengine:jme3-lwjgl:${v_jme}"
     runtime("org.jmonkeyengine:jme3-desktop:${v_jme}"){
         exclude module: "jinput"

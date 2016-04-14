@@ -1,6 +1,10 @@
 /// License [CC0](http://creativecommons.org/publicdomain/zero/1.0/)
 package jme3_skel;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import jme3_ext.JmeModule;
 import jme3_ext.SetupHelpers;
 
 public class Main {
@@ -19,6 +23,8 @@ public class Main {
 		if (!Main.assertionsEnabled) {
 			//throw new RuntimeException("Assertions must be enabled (vm args -ea");
 		}
-		DaggerMainAppMaker.create().make();
+		Injector injector = Guice.createInjector(new JmeModule(), new MainModule());
+
+		injector.getInstance(MainApp.class);
 	}
 }
