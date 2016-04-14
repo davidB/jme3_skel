@@ -1,4 +1,5 @@
 /lib
+/log
 
 # gradle
 build
@@ -9,6 +10,7 @@ build
 # native created when running
 *.so
 *.dll
+*.dylib
 
 # eclipse
 /bin
