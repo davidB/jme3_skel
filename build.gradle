@@ -7,9 +7,12 @@ plugins {
 	id "maven-publish"
 	id "application"
 }
-
 version = "git describe --always --dirty".execute().text.trim()
 println("version : '${version}'")
+group = com.github.davidb
+def description = "My Skeleton project for jmonkeyengine based project"
+def v_jme = "3.1.0-alpha5"
+def v_slf4j = "1.7.7"
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -29,7 +32,7 @@ dependencies {
     compile "org.slf4j:slf4j-api:${v_slf4j}"
     compile "com.jme3x:jfx:1.+"
     compile 'io.reactivex:rxjava:1.1.1'
-    compile 'com.github.davidb:jme3_ext:0e160a3:all'
+    compile 'com.github.davidb:jme3_ext:0.4.0:all'
     runtime "org.jmonkeyengine:jme3-lwjgl:${v_jme}"
     runtime("org.jmonkeyengine:jme3-desktop:${v_jme}"){
         exclude module: "jinput"
