@@ -4,6 +4,7 @@ package jme3_skel;
 import javax.inject.Inject;
 
 import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioData.DataType;
 import com.jme3x.jfx.FxPlatformExecutor;
 
 import jme3_ext.AppState0;
@@ -53,13 +54,13 @@ public class PageSettings extends AppState0{
 		app.getInputManager().addRawInputListener(inputMapper.rawInputListener);
 		hudTools.show(hud);
 
-		audioMusicTest = new AudioNode(app.getAssetManager(), "Sounds/BlackVortex.ogg", true);
+		audioMusicTest = new AudioNode(app.getAssetManager(), "Sounds/BlackVortex.ogg", DataType.Stream);
 		audioMusicTest.setLooping(false);
 		audioMusicTest.setPositional(true);
 		audioMgr.musics.add(audioMusicTest);
 		app.getRootNode().attachChild(audioMusicTest);
 
-		audioSoundTest = new AudioNode(app.getAssetManager(), "Sounds/Gun.wav", false); // buffered
+		audioSoundTest = new AudioNode(app.getAssetManager(), "Sounds/Gun.wav", DataType.Buffer);
 		audioSoundTest.setLooping(false);
 		audioMusicTest.setPositional(false);
 		app.getRootNode().attachChild(audioSoundTest);
